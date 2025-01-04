@@ -51,7 +51,7 @@ export function Gallery() {
             </div>
             <div className="h-48 md:h-64 rounded-lg overflow-hidden">
               <img
-                src="/public/gallery/tea-party.jpg"
+                src="/gallery/tea-party.jpg"
                 alt="Tea party at Canan's"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
