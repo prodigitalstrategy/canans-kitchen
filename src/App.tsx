@@ -36,7 +36,6 @@ export default function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/blog" element={<Blog fullWidth />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
         </Routes>
         <Footer />

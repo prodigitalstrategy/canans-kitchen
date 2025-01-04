@@ -1,10 +1,10 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { blogPosts } from "./blogData";
 import {
+  ArrowLeft,
   Calendar,
   User,
-  ArrowLeft,
   Clock,
   Users,
   ChefHat,
@@ -12,31 +12,107 @@ import {
   Facebook,
   Twitter,
 } from "lucide-react";
-import ReactMarkdown from "react-markdown";
 
 export function BlogPost() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const post = blogPosts.find((p) => p.slug === slug);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!post) {
     return (
-      <div className="py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-2xl font-display mb-4">Post not found</h1>
-          <p className="text-gray-600 mb-8">
-            The blog post you're looking for doesn't exist or has been moved.
-          </p>
-          <Link
-            to="/blog"
-            className="inline-flex items-center text-primary hover:text-primary-dark font-medium"
-          >
-            <ArrowLeft className="mr-2" size={20} />
-            Back to Blog
-          </Link>
+      <div className="min-h-screen pt-24 pb-12">
+        <div className="container mx-auto px-4">
+          <p className="text-center text-gray-600">Blog post not found.</p>
         </div>
       </div>
     );
   }
+
+  const renderContent = (content: string) => {
+    const sections = content.split("\n\n");
+    let currentSection = {
+      title: "",
+      content: [] as string[],
+    };
+    const renderedSections = [];
+
+    sections.forEach((section, index) => {
+      if (section.startsWith("#")) {
+        // If we have a previous section, push it
+        if (currentSection.content.length > 0 || currentSection.title) {
+          renderedSections.push({ ...currentSection });
+        }
+        // Start new section
+        const level = section.match(/^#+/)[0].length;
+        const title = section.replace(/^#+\s/, "");
+        currentSection = {
+          title,
+          content: [],
+        };
+      } else {
+        currentSection.content.push(section);
+      }
+
+      // Push the last section
+      if (
+        index === sections.length - 1 &&
+        (currentSection.content.length > 0 || currentSection.title)
+      ) {
+        renderedSections.push({ ...currentSection });
+      }
+    });
+
+    return renderedSections.map((section, sectionIndex) => (
+      <div key={sectionIndex} className="mb-12">
+        {section.title && (
+          <h2 className="text-3xl font-display font-bold text-primary mb-6">
+            {section.title}
+          </h2>
+        )}
+        <div className="space-y-6">
+          {section.content.map((paragraph, paraIndex) => {
+            if (paragraph.startsWith("- ")) {
+              const items = paragraph
+                .split("\n")
+                .map((item) => item.replace("- ", ""));
+              return (
+                <ul key={paraIndex} className="list-disc pl-6 space-y-2">
+                  {items.map((item, i) => (
+                    <li key={i} className="text-gray-700">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              );
+            }
+            if (paragraph.match(/^\d+\./)) {
+              const items = paragraph
+                .split("\n")
+                .map((item) => item.replace(/^\d+\.\s/, ""));
+              return (
+                <ol key={paraIndex} className="list-decimal pl-6 space-y-2">
+                  {items.map((item, i) => (
+                    <li key={i} className="text-gray-700">
+                      {item}
+                    </li>
+                  ))}
+                </ol>
+              );
+            }
+            return (
+              <p key={paraIndex} className="text-gray-700 leading-relaxed">
+                {paragraph}
+              </p>
+            );
+          })}
+        </div>
+      </div>
+    ));
+  };
 
   return (
     <article className="min-h-screen">
@@ -51,6 +127,13 @@ export function BlogPost() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80" />
         </div>
         <div className="relative container mx-auto px-4 h-full flex flex-col justify-end pb-16">
+          <button
+            onClick={() => navigate("/")}
+            className="inline-flex items-center text-white/90 hover:text-white transition-colors mb-8 group"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
+            Back to Home
+          </button>
           <div className="max-w-4xl">
             <div className="flex items-center gap-4 text-white/80 mb-4">
               <div className="flex items-center gap-1">
@@ -78,42 +161,13 @@ export function BlogPost() {
           {/* Article Content */}
           <div className="lg:col-span-2">
             <div className="prose prose-lg max-w-none">
-              <ReactMarkdown
-                components={{
-                  h2: ({ children }) => (
-                    <h2 className="text-3xl font-display font-bold text-primary mt-12 mb-6">
-                      {children}
-                    </h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-2xl font-display font-semibold text-gray-800 mt-8 mb-4">
-                      {children}
-                    </h3>
-                  ),
-                  ul: ({ children }) => (
-                    <ul className="space-y-2 my-6">{children}</ul>
-                  ),
-                  li: ({ children }) => (
-                    <li className="flex items-start">
-                      <span className="inline-block w-2 h-2 rounded-full bg-primary/60 mt-2 mr-3" />
-                      <span>{children}</span>
-                    </li>
-                  ),
-                  ol: ({ children }) => (
-                    <ol className="space-y-4 my-6 list-none pl-0">
-                      {children}
-                    </ol>
-                  ),
-                }}
-              >
-                {post.content}
-              </ReactMarkdown>
+              {renderContent(post.content)}
             </div>
           </div>
 
           {/* Sidebar */}
           <aside className="lg:col-span-1">
-            <div className="sticky top-8 space-y-8">
+            <div className="sticky top-24 space-y-8">
               {/* Quick Facts Card */}
               <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div className="bg-primary/5 p-6">

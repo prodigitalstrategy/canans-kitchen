@@ -1,5 +1,6 @@
 import React from "react";
 import { X } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 interface NavigationProps {
   isOpen: boolean;
@@ -7,16 +8,63 @@ interface NavigationProps {
 }
 
 export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === "/";
+
   const menuItems = [
-    { href: "#story", text: "Our Story" },
-    { href: "#menu", text: "Menu" },
-    { href: "#catering", text: "Catering" },
-    { href: "#blog", text: "Blog" },
-    { href: "#contact", text: "Contact" },
+    { to: "#story", text: "Our Story", type: "section" },
+    { to: "#menu", text: "Menu", type: "section" },
+    { to: "#catering", text: "Catering", type: "section" },
+    { to: "#blog", text: "Blog", type: "section" },
+    { to: "#contact", text: "Contact", type: "section" },
   ];
 
   const handleClick = () => {
     setIsOpen(false);
+  };
+
+  const handleSectionClick = (e: React.MouseEvent, to: string) => {
+    handleClick();
+
+    if (isHomePage && to.startsWith("#")) {
+      // On homepage, scroll to section
+      const element = document.querySelector(to);
+      if (element) {
+        e.preventDefault();
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else if (!isHomePage && to.startsWith("#")) {
+      // Not on homepage, navigate and then scroll
+      e.preventDefault();
+      navigate("/");
+      setTimeout(() => {
+        const element = document.querySelector(to);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  };
+
+  const NavLink = ({
+    to,
+    type,
+    children,
+  }: {
+    to: string;
+    type: "section";
+    children: React.ReactNode;
+  }) => {
+    return (
+      <a
+        href={to}
+        className="text-lg lg:text-xl font-display hover:text-primary transition-colors tracking-wide"
+        onClick={(e) => handleSectionClick(e, to)}
+      >
+        {children}
+      </a>
+    );
   };
 
   return (
@@ -24,13 +72,9 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-8 lg:gap-12">
         {menuItems.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            className="text-lg lg:text-xl font-display hover:text-primary transition-colors tracking-wide"
-          >
+          <NavLink key={item.to} to={item.to} type={item.type}>
             {item.text}
-          </a>
+          </NavLink>
         ))}
       </nav>
 
@@ -61,14 +105,11 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
           </div>
           <nav className="py-4">
             {menuItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={handleClick}
-                className="block px-6 py-3 text-lg font-display hover:bg-gray-50 hover:text-primary transition-colors"
-              >
-                {item.text}
-              </a>
+              <div key={item.to} className="block px-6">
+                <NavLink to={item.to} type={item.type}>
+                  {item.text}
+                </NavLink>
+              </div>
             ))}
           </nav>
         </div>
