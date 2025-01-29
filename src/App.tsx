@@ -12,6 +12,7 @@ import { BlogPost } from "./components/Blog/BlogPost";
 import { Reviews } from "./components/Reviews/Reviews";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer/Footer";
+import { Privacy } from "./pages/Privacy";
 
 function HomePage() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
         <Footer />
       </div>

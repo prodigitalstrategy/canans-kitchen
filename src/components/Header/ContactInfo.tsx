@@ -19,7 +19,7 @@ export function ContactInfo({ onMenuClick }: ContactInfoProps) {
       </a>
       <button
         onClick={onMenuClick}
-        className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
+        className="md:hidden p-2.5 bg-primary text-white hover:bg-primary-dark rounded-lg transition-colors shadow-sm"
         aria-label="Toggle menu"
       >
         <MenuIcon size={24} />

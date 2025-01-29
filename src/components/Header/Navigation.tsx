@@ -1,6 +1,7 @@
 import React from "react";
-import { X } from "lucide-react";
+import { X, ChevronRight } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NavigationProps {
   isOpen: boolean;
@@ -13,11 +14,11 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
   const isHomePage = location.pathname === "/";
 
   const menuItems = [
-    { to: "#story", text: "Our Story", type: "section" },
-    { to: "#menu", text: "Menu", type: "section" },
-    { to: "#catering", text: "Catering", type: "section" },
-    { to: "#blog", text: "Blog", type: "section" },
-    { to: "#contact", text: "Contact", type: "section" },
+    { to: "#story", text: "Our Story", type: "section", icon: "📖" },
+    { to: "#menu", text: "Menu", type: "section", icon: "🍽️" },
+    { to: "#catering", text: "Catering", type: "section", icon: "🎪" },
+    { to: "#blog", text: "Blog", type: "section", icon: "✍️" },
+    { to: "#contact", text: "Contact", type: "section", icon: "📞" },
   ];
 
   const handleClick = () => {
@@ -28,14 +29,12 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
     handleClick();
 
     if (isHomePage && to.startsWith("#")) {
-      // On homepage, scroll to section
       const element = document.querySelector(to);
       if (element) {
         e.preventDefault();
         element.scrollIntoView({ behavior: "smooth" });
       }
     } else if (!isHomePage && to.startsWith("#")) {
-      // Not on homepage, navigate and then scroll
       e.preventDefault();
       navigate("/");
       setTimeout(() => {
@@ -51,19 +50,36 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
     to,
     type,
     children,
+    icon,
   }: {
     to: string;
     type: "section";
     children: React.ReactNode;
+    icon?: string;
   }) => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     return (
-      <a
+      <motion.a
         href={to}
-        className="text-lg lg:text-xl font-display hover:text-primary transition-colors tracking-wide"
+        className={`
+          group flex items-center gap-3 py-3 px-4 rounded-lg transition-all
+          ${isMobile ? 'hover:bg-primary/5' : 'hover:text-primary'}
+          ${location.hash === to ? 'text-primary' : 'text-gray-800'}
+        `}
         onClick={(e) => handleSectionClick(e, to)}
+        whileHover={{ x: isMobile ? 8 : 0 }}
+        whileTap={{ scale: 0.98 }}
       >
-        {children}
-      </a>
+        {icon && <span className="text-xl">{icon}</span>}
+        <span className="text-lg font-medium">{children}</span>
+        {isMobile && (
+          <ChevronRight 
+            className="ml-auto text-gray-400 group-hover:text-primary transition-colors" 
+            size={18} 
+          />
+        )}
+      </motion.a>
     );
   };
 
@@ -78,42 +94,72 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
         ))}
       </nav>
 
-      {/* Mobile Navigation */}
-      <div
-        className={`
-          fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 md:hidden
-          ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
-        `}
-        onClick={() => setIsOpen(false)}
-      >
-        <div
-          className={`
-            fixed right-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
-            ${isOpen ? "translate-x-0" : "translate-x-full"}
-          `}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="p-4 flex justify-between items-center border-b">
-            <span className="text-xl font-display font-semibold">Menu</span>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              aria-label="Close menu"
+      {/* Mobile Navigation Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 md:hidden"
+            onClick={() => setIsOpen(false)}
+          >
+            {/* Mobile Menu Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 h-full w-80 bg-white/95 backdrop-blur-md shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={24} />
-            </button>
-          </div>
-          <nav className="py-4">
-            {menuItems.map((item) => (
-              <div key={item.to} className="block px-6">
-                <NavLink to={item.to} type={item.type}>
-                  {item.text}
-                </NavLink>
+              {/* Header */}
+              <div className="p-4 flex justify-between items-center border-b border-gray-100 bg-white">
+                <span className="text-xl font-display font-semibold text-primary">
+                  Menu
+                </span>
+                <motion.button
+                  whileHover={{ rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X size={24} />
+                </motion.button>
               </div>
-            ))}
-          </nav>
-        </div>
-      </div>
+
+              {/* Menu Items */}
+              <nav className="py-4 bg-white">
+                <div className="space-y-1">
+                  {menuItems.map((item) => (
+                    <NavLink 
+                      key={item.to} 
+                      to={item.to} 
+                      type={item.type}
+                      icon={item.icon}
+                    >
+                      {item.text}
+                    </NavLink>
+                  ))}
+                </div>
+              </nav>
+
+              {/* Footer */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-100 bg-white">
+                <a
+                  href="tel:+19493946318"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                >
+                  <span className="text-lg">Call Us</span>
+                  <span className="font-medium">(949) 394-6318</span>
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

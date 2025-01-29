@@ -12,6 +12,53 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "3",
+    title: "Traditional Turkish Breakfast: A Delicious and Healthy Feast",
+    slug: "traditional-turkish-breakfast",
+    author: "Canan Penez Sertdere",
+    date: "January 2024",
+    excerpt:
+      "Discover the essence of Turkish breakfast, known as 'kahvaltı', a communal feast that brings together a variety of delicious and healthy dishes.",
+    content: `
+## The Essence of Turkish Breakfast
+
+Turkish breakfast, known as "kahvaltı," is a feast for the senses. It's a communal affair that brings family and friends together, and the meal's layout is as important as the food itself. The spread typically includes a variety of small dishes, each with its unique taste and texture.
+
+### Cheese, Olives, and More
+
+Cheese is a staple in Turkish breakfasts, with beyaz peynir (white cheese) being a favorite. Similar to feta, it adds a creamy, slightly tangy flavor. Olives, both green and black, offer a salty contrast. Paired together, they form a delightful combination.
+
+Eggs, often served fried or boiled, are another common feature. Tomatoes and cucumbers provide a fresh, crisp element, balancing out the richness. The variety ensures there's something for everyone.
+
+### Sweet Additions
+
+Breakfast isn't complete without jams and honey. Fresh fruit jams, like strawberry or apricot, bring sweetness to the table. Honey, often paired with kaymak (clotted cream), is a decadent treat. These sweet options add variety and delight to the meal.
+
+Sausage, particularly sucuk, offers a spicy kick. When cooked alongside eggs or served on its own, it brings warmth and depth to the breakfast spread. Coupled with Turkish tea, this mix of flavors is truly satisfying.
+
+## Menemen: A Turkish Egg Delight
+
+Menemen is a beloved egg dish in Turkey, perfect for breakfast. It combines scrambled eggs with tomatoes, green peppers, and spices, creating a hearty and flavorful dish that's both comforting and nutritious.
+
+## Health Benefits
+
+A traditional Turkish breakfast offers more than just delicious flavors - it's also incredibly nutritious:
+
+- **Fresh Vegetables**: Tomatoes and cucumbers provide vitamins and antioxidants
+- **Healthy Fats**: Olives and olive oil offer heart-healthy fats
+- **Protein Sources**: Eggs and cheese provide essential proteins
+- **Natural Sweetness**: Honey and homemade jams offer energy without processed sugars
+
+## Experience It at Canan's Kitchen
+
+Visit us at Canan's Kitchen in Fountain Valley to experience the true taste of a traditional Turkish breakfast. Our diverse breakfast menu includes fresh simit, various cheeses, olives, menemen, and many other traditional delights, all perfectly complemented by authentic Turkish tea.
+
+More than just a meal, we offer a warm and welcoming atmosphere that reflects the hospitality and charm of Turkey. Join us for a unique breakfast experience that celebrates both tradition and taste.
+    `,
+    image: "/images/blog/turkish-breakfast.jpg",
+    category: "Traditional Turkish Cuisine"
+  },
+  {
     id: "2",
     title: "What is Baklava? A Sweet Journey Through Time and Taste",
     slug: "what-is-baklava",

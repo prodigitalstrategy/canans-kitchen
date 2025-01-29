@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { blogPosts } from "./blogData";
 import {
@@ -11,8 +11,25 @@ import {
 
 export function Blog() {
   const [startIndex, setStartIndex] = useState(0);
-  const postsPerView = 3;
+  const [postsPerView, setPostsPerView] = useState(3);
   const posts = blogPosts;
+
+  // Adjust posts per view based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) { // sm
+        setPostsPerView(1);
+      } else if (window.innerWidth < 1024) { // md
+        setPostsPerView(2);
+      } else {
+        setPostsPerView(3);
+      }
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const showNext = () => {
     setStartIndex((prev) =>
@@ -31,44 +48,46 @@ export function Blog() {
   return (
     <section
       id="blog"
-      className="py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden"
+      className="py-12 sm:py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden"
     >
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-dark">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-dark">
             From Our Kitchen
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-base sm:text-lg px-4">
             Discover our collection of authentic recipes, cooking tips, and
             culinary stories.
           </p>
         </div>
 
         <div className="relative max-w-7xl mx-auto">
-          {/* Navigation Buttons */}
-          {canShowPrev && (
-            <button
-              onClick={showPrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-              aria-label="Previous posts"
-            >
-              <ChevronLeft className="w-6 h-6 text-primary" />
-            </button>
-          )}
-          {canShowNext && (
-            <button
-              onClick={showNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-              aria-label="Next posts"
-            >
-              <ChevronRight className="w-6 h-6 text-primary" />
-            </button>
-          )}
+          {/* Navigation Buttons - Hidden on mobile, shown on tablet and up */}
+          <div className="hidden sm:block">
+            {canShowPrev && (
+              <button
+                onClick={showPrev}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                aria-label="Previous posts"
+              >
+                <ChevronLeft className="w-6 h-6 text-primary" />
+              </button>
+            )}
+            {canShowNext && (
+              <button
+                onClick={showNext}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                aria-label="Next posts"
+              >
+                <ChevronRight className="w-6 h-6 text-primary" />
+              </button>
+            )}
+          </div>
 
           {/* Posts Carousel */}
           <div className="relative">
             <div
-              className="flex gap-8 transition-transform duration-500 ease-in-out"
+              className="flex gap-4 sm:gap-6 md:gap-8 transition-transform duration-500 ease-in-out"
               style={{
                 transform: `translateX(-${startIndex * (100 / postsPerView)}%)`,
               }}
@@ -76,15 +95,15 @@ export function Blog() {
               {visiblePosts.map((post) => (
                 <article
                   key={post.id}
-                  className="w-full flex-shrink-0 group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                  className="w-full flex-shrink-0 group bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
                   style={{
                     flex: `0 0 calc(${100 / postsPerView}% - ${
-                      (24 * (postsPerView - 1)) / postsPerView
+                      (16 * (postsPerView - 1)) / postsPerView
                     }px)`,
                   }}
                 >
                   <Link to={`/blog/${post.slug}`} className="block">
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
                       <img
                         src={post.image}
                         alt={post.title}
@@ -99,8 +118,8 @@ export function Blog() {
                     </div>
                   </Link>
 
-                  <div className="p-6">
-                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                  <div className="p-4 sm:p-6">
+                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-3 sm:mb-4">
                       <div className="flex items-center gap-1">
                         <Calendar size={16} className="text-primary" />
                         <time>{post.date}</time>
@@ -111,17 +130,17 @@ export function Blog() {
                       </div>
                     </div>
 
-                    <h3 className="text-2xl font-display font-bold mb-3 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-2 sm:mb-3 group-hover:text-primary transition-colors line-clamp-2">
                       <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                     </h3>
 
-                    <p className="text-gray-600 mb-6 line-clamp-3">
+                    <p className="text-gray-600 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3 text-sm sm:text-base">
                       {post.excerpt}
                     </p>
 
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-primary hover:text-primary-dark transition-colors font-medium group/link"
+                      className="inline-flex items-center text-primary hover:text-primary-dark transition-colors font-medium group/link text-sm sm:text-base"
                     >
                       Read Recipe
                       <ArrowRight className="ml-2 w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" />
@@ -131,10 +150,26 @@ export function Blog() {
               ))}
             </div>
           </div>
+
+          {/* Mobile Navigation Dots */}
+          <div className="flex justify-center gap-2 mt-6 sm:hidden">
+            {Array.from({ length: Math.ceil(posts.length / postsPerView) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setStartIndex(index * postsPerView)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  Math.floor(startIndex / postsPerView) === index
+                    ? "bg-primary w-4"
+                    : "bg-gray-300"
+                }`}
+                aria-label={`Go to page ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {posts.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-8 sm:py-12">
             <p className="text-gray-600">No blog posts found.</p>
           </div>
         )}
