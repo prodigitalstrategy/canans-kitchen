@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Favicon Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      margin: 20px 0;
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Canan's Kitchen Favicon Generator</h1>
+    <p>This tool will help you create a favicon.ico file from the logo.png</p>
+    
+    <div>
+      <img id="logoImage" src="/logo.png" alt="Logo" style="max-width: 200px; margin-bottom: 20px;">
+    </div>
+    
+    <canvas id="favicon16" width="16" height="16"></canvas>
+    <canvas id="favicon32" width="32" height="32"></canvas>
+    <canvas id="favicon64" width="64" height="64"></canvas>
+    
+    <div class="buttons">
+      <button id="generateBtn">Generate Favicon</button>
+      <button id="downloadBtn" disabled>Download favicon.ico</button>
+    </div>
+    
+    <div id="instructions" style="margin-top: 20px; display: none;">
+      <h3>Instructions:</h3>
+      <ol>
+        <li>Click "Download favicon.ico" to download the favicon file</li>
+        <li>Place the downloaded file in the public directory of your project</li>
+        <li>Update your HTML to use this favicon</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const logoImage = document.getElementById('logoImage');
+      const generateBtn = document.getElementById('generateBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const instructions = document.getElementById('instructions');
+      
+      const canvas16 = document.getElementById('favicon16');
+      const canvas32 = document.getElementById('favicon32');
+      const canvas64 = document.getElementById('favicon64');
+      
+      const ctx16 = canvas16.getContext('2d');
+      const ctx32 = canvas32.getContext('2d');
+      const ctx64 = canvas64.getContext('2d');
+      
+      generateBtn.addEventListener('click', function() {
+        // Draw the image on each canvas at different sizes
+        ctx16.clearRect(0, 0, 16, 16);
+        ctx32.clearRect(0, 0, 32, 32);
+        ctx64.clearRect(0, 0, 64, 64);
+        
+        ctx16.drawImage(logoImage, 0, 0, 16, 16);
+        ctx32.drawImage(logoImage, 0, 0, 32, 32);
+        ctx64.drawImage(logoImage, 0, 0, 64, 64);
+        
+        downloadBtn.disabled = false;
+        instructions.style.display = 'block';
+      });
+      
+      downloadBtn.addEventListener('click', function() {
+        // Create a link to download the favicon
+        const link = document.createElement('a');
+        link.download = 'favicon.ico';
+        
+        // Use the largest canvas for the download
+        link.href = canvas64.toDataURL('image/x-icon');
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+      
+      // Auto-generate when image loads
+      logoImage.onload = function() {
+        generateBtn.click();
+      };
+    });
+  </script>
+</body>
+</html>
