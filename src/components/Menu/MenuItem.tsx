@@ -1,5 +1,5 @@
-import React from "react";
-import { Leaf, Wheat } from "lucide-react";
+import { Leaf, Wheat, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface MenuItemProps {
   name: string;
@@ -20,8 +20,10 @@ export function MenuItem({
   hasAllergens,
   adjustments,
 }: MenuItemProps) {
+  // Generate slug for the detail page URL
+  const slug = name.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
   return (
-    <div className="group relative">
+    <Link to={`/menu/${slug}`} className="group relative block cursor-pointer">
       {/* Spacer div to maintain layout */}
       <div className="p-4 border-b border-gray-100 last:border-0 invisible">
         <div className="flex justify-between items-start mb-2">
@@ -94,6 +96,14 @@ export function MenuItem({
           )}
         </div>
       </div>
-    </div>
+      
+      {/* View details indicator */}
+      <div className="absolute right-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="flex items-center text-primary-dark text-sm font-medium">
+          <span>View details</span>
+          <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+        </div>
+      </div>
+    </Link>
   );
 }
