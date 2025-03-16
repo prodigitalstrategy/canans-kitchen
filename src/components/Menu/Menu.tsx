@@ -102,8 +102,8 @@ export function Menu() {
         </div>
 
         {/* Menu Items */}
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-          <div className="divide-y divide-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {menuItems
               .filter((item) => item.category === selectedCategory)
               .map((item, index) => (
