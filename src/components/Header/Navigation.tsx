@@ -1,5 +1,5 @@
 import React from "react";
-import { X, ChevronRight } from "lucide-react";
+import { ChevronRight, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -16,7 +16,7 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
   const menuItems = [
     { to: "#story", text: "Our Story", type: "section", icon: "📖" },
     { to: "#menu", text: "Menu", type: "section", icon: "🍽️" },
-    { to: "#catering", text: "Catering", type: "section", icon: "🎪" },
+    { to: "/catering", text: "Catering", type: "page", icon: "🎪" },
     { to: "#blog", text: "Blog", type: "section", icon: "✍️" },
     { to: "#contact", text: "Contact", type: "section", icon: "📞" },
   ];
@@ -46,6 +46,8 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
     }
   };
 
+  type NavLinkType = "section" | "page";
+
   const NavLink = ({
     to,
     type,
@@ -53,13 +55,38 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
     icon,
   }: {
     to: string;
-    type: "section";
+    type: NavLinkType;
     children: React.ReactNode;
     icon?: string;
   }) => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
-    return (
+    return type === "page" ? (
+      <motion.div
+        className="inline-block"
+        whileHover={{ x: isMobile ? 8 : 0 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <Link
+          to={to}
+          className={`
+            group flex items-center gap-3 py-3 px-4 rounded-lg transition-all
+            ${isMobile ? 'hover:bg-primary/5' : 'hover:text-primary'}
+            ${location.pathname === to ? 'text-primary' : 'text-gray-800'}
+          `}
+          onClick={handleClick}
+        >
+          {icon && <span className="text-xl">{icon}</span>}
+          <span className="text-lg font-medium">{children}</span>
+          {isMobile && (
+            <ChevronRight 
+              className="ml-auto text-gray-400 group-hover:text-primary transition-colors" 
+              size={18} 
+            />
+          )}
+        </Link>
+      </motion.div>
+    ) : (
       <motion.a
         href={to}
         className={`
@@ -88,7 +115,12 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-8 lg:gap-12">
         {menuItems.map((item) => (
-          <NavLink key={item.to} to={item.to} type={item.type}>
+          <NavLink 
+            key={item.to} 
+            to={item.to} 
+            type={item.type as NavLinkType}
+            icon={item.icon}
+          >
             {item.text}
           </NavLink>
         ))}
@@ -137,7 +169,7 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
                     <NavLink 
                       key={item.to} 
                       to={item.to} 
-                      type={item.type}
+                      type={item.type as NavLinkType}
                       icon={item.icon}
                     >
                       {item.text}

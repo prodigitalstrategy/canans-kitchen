@@ -14,6 +14,24 @@ export function Menu() {
   ].filter(category => menuItems.some(item => item.category === category));
   
   const [selectedCategory, setSelectedCategory] = useState<string>(categories[0]);
+  
+  // Get the appropriate image for each menu category
+  const getCategoryImage = (category: string) => {
+    switch(category) {
+      case "Breakfast Platters":
+        return "/gallery/turkish-breakfast.jpg";
+      case "Breakfast Specials":
+        return "/gallery/breakfast-spread.jpg";
+      case "Eggs & Omelettes":
+        return "/gallery/menemen.jpg";
+      case "Sandwiches":
+        return "/gallery/simit.jpg";
+      case "Crepes":
+        return "/gallery/pastries.jpg";
+      default:
+        return "/gallery/turkish-breakfast.jpg";
+    }
+  };
 
   return (
     <section id="menu" className="min-h-screen py-20 bg-warm-50">
@@ -23,29 +41,50 @@ export function Menu() {
           <h2 className="font-display text-5xl text-primary mb-4">
             Breakfast Menu
           </h2>
-          <p className="text-center mb-8 text-gray-600">
-            Experience authentic Turkish breakfast delights
+          <p className="text-center mb-8 text-gray-600 max-w-2xl mx-auto">
+            Experience authentic Turkish breakfast delights, prepared with traditional recipes and the freshest ingredients
           </p>
           
+          {/* Featured Image */}
+          <div className="relative w-full max-w-4xl mx-auto h-64 mb-12 overflow-hidden rounded-xl shadow-lg">
+            <img 
+              src={getCategoryImage(selectedCategory)} 
+              alt={selectedCategory}
+              className="w-full h-full object-cover transition-transform duration-700 ease-in-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+              <div className="p-6 text-white w-full">
+                <h3 className="font-serif text-3xl mb-2">{selectedCategory}</h3>
+                <p className="text-white/80 text-sm">
+                  {selectedCategory === "Breakfast Platters" && "Generous platters for sharing"}
+                  {selectedCategory === "Breakfast Specials" && "Chef's special morning delights"}
+                  {selectedCategory === "Eggs & Omelettes" && "Farm-fresh eggs prepared to perfection"}
+                  {selectedCategory === "Sandwiches" && "Handcrafted with freshly baked bread"}
+                  {selectedCategory === "Crepes" && "Sweet treats to brighten your morning"}
+                </p>
+              </div>
+            </div>
+          </div>
+          
           {/* Legend */}
-          <div className="flex justify-center gap-4 mb-8">
+          <div className="flex justify-center gap-6 mb-8">
             <div className="flex items-center gap-2">
-              <Leaf size={16} className="text-green-600" />
+              <Leaf size={18} className="text-green-600" />
               <span className="text-sm text-gray-600">Vegan</span>
             </div>
             <div className="flex items-center gap-2">
-              <Wheat size={16} className="text-green-600" />
+              <Wheat size={18} className="text-green-600" />
               <span className="text-sm text-gray-600">Vegetarian</span>
             </div>
             <div className="flex items-center gap-2">
-              <ChefHat size={16} className="text-primary-dark" />
+              <ChefHat size={18} className="text-primary-dark" />
               <span className="text-sm text-gray-600">Chef's Recommendation</span>
             </div>
           </div>
         </div>
 
         {/* Menu Categories */}
-        <div className="flex justify-center flex-wrap gap-4 mb-12">
+        <div className="flex justify-center flex-wrap gap-4 mb-8">
           {categories.map((category) => (
             <button
               key={category}
@@ -53,8 +92,8 @@ export function Menu() {
               className={`
                 px-6 py-3 rounded-full text-lg font-medium transition-all duration-300
                 ${selectedCategory === category
-                  ? "bg-primary text-white shadow-md"
-                  : "bg-white text-gray-700 hover:bg-gray-100"}
+                  ? "bg-primary text-white shadow-lg ring-2 ring-primary/20"
+                  : "bg-white text-gray-700 hover:bg-gray-100 hover:shadow"}
               `}
             >
               {category}
@@ -63,13 +102,7 @@ export function Menu() {
         </div>
 
         {/* Menu Items */}
-        <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-            <h3 className="font-serif font-semibold text-xl text-primary">
-              {selectedCategory}
-            </h3>
-          </div>
-          
+        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
           <div className="divide-y divide-gray-100">
             {menuItems
               .filter((item) => item.category === selectedCategory)
@@ -80,13 +113,13 @@ export function Menu() {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">
-            All our dishes are made fresh to order with locally sourced ingredients
+        <div className="text-center mt-16">
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            All our dishes are made fresh to order with locally sourced ingredients from trusted farmers and suppliers
           </p>
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors shadow-lg hover:shadow-xl"
           >
             <Coffee size={20} />
             Visit Us Today

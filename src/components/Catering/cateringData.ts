@@ -31,7 +31,10 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 3.50,
-    allergens: ['sesame', 'wheat']
+    allergens: ['sesame', 'wheat'],
+    popular: true,
+    preparationTime: '1-2 hours',
+    servingSize: '1 per person'
   },
   {
     id: 'patatesli-borek',
@@ -42,7 +45,9 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 4.50,
-    allergens: ['wheat']
+    allergens: ['wheat'],
+    preparationTime: '2-3 hours',
+    servingSize: '2-3 pieces per person'
   },
   {
     id: 'ispanakli-borek',
@@ -53,7 +58,9 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 4.50,
-    allergens: ['wheat', 'dairy']
+    allergens: ['wheat', 'dairy'],
+    preparationTime: '2-3 hours',
+    servingSize: '2-3 pieces per person'
   },
   {
     id: 'kiymali-borek',
@@ -63,7 +70,10 @@ export const cateringItems: CateringItem[] = [
     imageUrl: '/images/catering/meat-borek.jpg',
     minOrder: 10,
     pricePerPerson: 5.00,
-    allergens: ['wheat']
+    allergens: ['wheat'],
+    popular: true,
+    preparationTime: '2-3 hours',
+    servingSize: '2-3 pieces per person'
   },
   {
     id: 'yaprak-sarma',
@@ -74,7 +84,10 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     isVegan: true,
     minOrder: 10,
-    pricePerPerson: 4.00
+    pricePerPerson: 4.00,
+    popular: true,
+    preparationTime: '3-4 hours',
+    servingSize: '5-6 pieces per person'
   },
   {
     id: 'lahana-sarma',
@@ -83,7 +96,9 @@ export const cateringItems: CateringItem[] = [
     category: 'mains',
     imageUrl: '/images/catering/cabbage-rolls.jpg',
     minOrder: 10,
-    pricePerPerson: 5.00
+    pricePerPerson: 5.00,
+    preparationTime: '3-4 hours',
+    servingSize: '4-5 pieces per person'
   },
   {
     id: 'menemen',
@@ -94,7 +109,10 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 6.00,
-    allergens: ['eggs', 'wheat']
+    allergens: ['eggs', 'wheat'],
+    popular: true,
+    preparationTime: '30-45 minutes',
+    servingSize: '1 serving per person'
   },
   {
     id: 'san-sebastian',
@@ -105,7 +123,10 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 6.50,
-    allergens: ['dairy', 'eggs']
+    allergens: ['dairy', 'eggs'],
+    popular: true,
+    preparationTime: '4-5 hours',
+    servingSize: '1 slice per person'
   },
   {
     id: 'eclairs',
@@ -116,7 +137,9 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 4.50,
-    allergens: ['wheat', 'dairy', 'eggs']
+    allergens: ['wheat', 'dairy', 'eggs'],
+    preparationTime: '3-4 hours',
+    servingSize: '2 pieces per person'
   },
   {
     id: 'baklava',
@@ -127,7 +150,10 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 5.00,
-    allergens: ['wheat', 'nuts']
+    allergens: ['wheat', 'nuts'],
+    popular: true,
+    preparationTime: '2-3 hours',
+    servingSize: '2-3 pieces per person'
   },
   {
     id: 'cold-baklava',
@@ -138,6 +164,8 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 5.50,
-    allergens: ['wheat', 'dairy', 'nuts']
+    allergens: ['wheat', 'dairy', 'nuts'],
+    preparationTime: '3-4 hours plus chilling',
+    servingSize: '2-3 pieces per person'
   }
 ];

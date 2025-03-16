@@ -9,6 +9,9 @@ export interface CateringItem {
   allergens?: string[];
   minOrder: number;
   pricePerPerson: number;
+  popular?: boolean;
+  preparationTime?: string;
+  servingSize?: string;
 }
 
 export interface CategoryInfo {

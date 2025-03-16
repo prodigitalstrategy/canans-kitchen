@@ -153,6 +153,35 @@ export const menuItems: MenuItem[] = [
 ];
 
 export const menuItemDetails: Record<string, MenuItemDetailType> = {
+  "breakfast-plate": {
+    images: ["/images/menu/breakfast-plate.jpg"],
+    funFacts: [
+      "The Turkish word for breakfast, 'kahvaltı', literally means 'before coffee'.",
+      "In Turkey, breakfast is considered the most important meal of the day.",
+      "Turkish tea is traditionally served in small tulip-shaped glasses."
+    ],
+    ingredients: [
+      "Eggs",
+      "Housemade simit (Turkish bagel)",
+      "Assorted cheeses",
+      "Fresh salad",
+      "Housemade strawberry jam",
+      "Honey",
+      "Olives",
+      "Turkish tea"
+    ],
+    preparationTime: "15 mins",
+    servingSize: "1 person",
+    difficulty: "Easy",
+    relatedItems: ["mixed-breakfast-2-person", "menemen-shakshuka"],
+    nutrition: {
+      calories: 450,
+      protein: 15,
+      carbs: 40,
+      fat: 25
+    }
+  },
+  
   "mixed-breakfast-2-person": {
     images: ["/images/menu/mixed-breakfast.jpg"],
     funFacts: [
@@ -296,5 +325,224 @@ export const menuItemDetails: Record<string, MenuItemDetailType> = {
     servingSize: "1 person",
     difficulty: "Medium",
     relatedItems: ["banana-nutella-almond-crepe", "mixed-crepe"]
+  },
+
+  "meat-eggs-kavurma": {
+    images: ["/images/menu/kavurma.jpg"],
+    funFacts: [
+      "Kavurma is a traditional Turkish dish of sautéed or braised meat, usually lamb or beef.",
+      "The dish dates back to nomadic Turkish tribes who preserved meat in its own fat.",
+      "In Turkey, it's often prepared as a special dish during religious festivals."
+    ],
+    ingredients: [
+      "Sautéed meat (lamb or beef)",
+      "Fresh eggs",
+      "Butter",
+      "Spices",
+      "Fresh bread"
+    ],
+    preparationTime: "20 mins",
+    servingSize: "1 person",
+    difficulty: "Medium",
+    relatedItems: ["soujuk-omelette", "mixed-breakfast-2-person"],
+    nutrition: {
+      calories: 520,
+      protein: 30,
+      carbs: 15,
+      fat: 35
+    }
+  },
+
+  "soujuk-omelette": {
+    images: ["/images/menu/soujuk-omelette.jpg"],
+    funFacts: [
+      "Soujuk is a dry, spicy sausage common in Turkish, Balkan, and Middle Eastern cuisine.",
+      "Traditional soujuk is made from ground beef with various spices including cumin, sumac, garlic, salt, and red pepper.",
+      "It's typically cured for several weeks before being consumed."
+    ],
+    ingredients: [
+      "Soujuk (Turkish sausage)",
+      "Fresh eggs",
+      "Butter",
+      "Fresh bread"
+    ],
+    preparationTime: "15 mins",
+    servingSize: "1 person",
+    difficulty: "Easy",
+    relatedItems: ["meat-eggs-kavurma", "menemen-shakshuka"],
+    nutrition: {
+      calories: 480,
+      protein: 25,
+      carbs: 12,
+      fat: 30
+    }
+  },
+
+  "spinach-omelette": {
+    images: ["/images/menu/spinach-omelette.jpg"],
+    recipe: "Try this at home:\n\n1. Wash and chop fresh spinach\n2. Beat eggs with a pinch of salt and pepper\n3. Heat butter in a pan over medium heat\n4. Add spinach and sauté until wilted\n5. Pour in beaten eggs\n6. Cook until set on bottom, then fold and finish cooking\n7. Serve with toasted sourdough bread",
+    funFacts: [
+      "Spinach contains more nutrients when cooked than when raw.",
+      "Spinach is extremely high in iron and calcium.",
+      "Popeye the Sailor Man helped increase spinach consumption by 33% in the United States during the 1930s."
+    ],
+    ingredients: [
+      "Fresh eggs",
+      "Baby spinach",
+      "Butter",
+      "Salt and pepper",
+      "Toasted sourdough bread"
+    ],
+    preparationTime: "10 mins",
+    servingSize: "1 person",
+    difficulty: "Easy",
+    relatedItems: ["mushroom-omelette", "cheese-omelette"],
+    nutrition: {
+      calories: 320,
+      protein: 18,
+      carbs: 15,
+      fat: 22,
+      fiber: 3
+    }
+  },
+
+  "mushroom-omelette": {
+    images: ["/images/menu/mushroom-omelette.jpg"],
+    recipe: "Simple mushroom omelette recipe:\n\n1. Clean and slice mushrooms\n2. Sauté mushrooms in butter until golden\n3. Beat eggs with salt and pepper\n4. Pour eggs over mushrooms in pan\n5. Cook until bottom is set, then fold\n6. Serve with toasted sourdough bread",
+    funFacts: [
+      "Mushrooms are neither plants nor animals but belong to the fungi kingdom.",
+      "Mushrooms have been used medicinally for thousands of years in various cultures.",
+      "They're one of the few natural sources of vitamin D."
+    ],
+    ingredients: [
+      "Fresh eggs",
+      "Mushrooms",
+      "Butter",
+      "Salt and pepper",
+      "Toasted sourdough bread"
+    ],
+    preparationTime: "15 mins",
+    servingSize: "1 person",
+    difficulty: "Easy",
+    relatedItems: ["spinach-omelette", "cheese-omelette"],
+    nutrition: {
+      calories: 340,
+      protein: 19,
+      carbs: 16,
+      fat: 23,
+      fiber: 2
+    }
+  },
+
+  "cheese-omelette": {
+    images: ["/images/menu/cheese-omelette.jpg"],
+    recipe: "Classic cheese omelette recipe:\n\n1. Beat eggs with salt and pepper\n2. Heat butter in a non-stick pan\n3. Pour in eggs and cook until almost set\n4. Sprinkle with feta and mozzarella cheese\n5. Fold omelette and allow cheese to melt\n6. Serve with toasted sourdough bread",
+    funFacts: [
+      "Feta cheese is Greece's national cheese and has been protected by EU legislation since 2002.",
+      "The word 'omelette' comes from the French word 'amelette'.",
+      "The first omelettes date back to 16th century France."
+    ],
+    ingredients: [
+      "Fresh eggs",
+      "Feta cheese",
+      "Mozzarella cheese",
+      "Butter",
+      "Salt and pepper",
+      "Toasted sourdough bread"
+    ],
+    preparationTime: "10 mins",
+    servingSize: "1 person",
+    difficulty: "Easy",
+    relatedItems: ["spinach-omelette", "mushroom-omelette"],
+    nutrition: {
+      calories: 380,
+      protein: 22,
+      carbs: 15,
+      fat: 27
+    }
+  },
+
+  "avocado-toast": {
+    images: ["/images/menu/avocado-toast.jpg"],
+    recipe: "Make it at home:\n\n1. Toast sourdough bread until crisp\n2. Mash ripe avocado with lemon juice, salt, and pepper\n3. Spread cream cheese on toast\n4. Top with avocado spread\n5. Garnish with arugula and a drizzle of olive oil",
+    funFacts: [
+      "Avocados are technically a fruit, specifically a single-seed berry.",
+      "There are over 500 varieties of avocados in the world.",
+      "Avocado trees can live for over 400 years and produce up to 500 avocados annually."
+    ],
+    ingredients: [
+      "Sourdough bread",
+      "Ripe avocado",
+      "Cream cheese",
+      "Arugula",
+      "Lemon juice",
+      "Olive oil",
+      "Salt and pepper"
+    ],
+    preparationTime: "8 mins",
+    servingSize: "1 person",
+    difficulty: "Easy",
+    relatedItems: ["egg-cheese-croissant", "pancakes"],
+    nutrition: {
+      calories: 310,
+      protein: 7,
+      carbs: 25,
+      fat: 22,
+      fiber: 7
+    }
+  },
+
+  "egg-cheese-croissant": {
+    images: ["/images/menu/egg-cheese-croissant.jpg"],
+    funFacts: [
+      "Croissants originated in Austria, not France, and were called 'kipferl'.",
+      "Traditional croissants contain over 80 layers of butter and dough.",
+      "It takes about 72 hours to make croissants from scratch if done properly."
+    ],
+    ingredients: [
+      "Fresh croissant",
+      "Eggs",
+      "Cheese",
+      "Butter"
+    ],
+    preparationTime: "8 mins",
+    servingSize: "1 person",
+    difficulty: "Easy",
+    relatedItems: ["avocado-toast", "breakfast-plate"],
+    nutrition: {
+      calories: 420,
+      protein: 14,
+      carbs: 30,
+      fat: 28
+    }
+  },
+
+  "chefs-soujuk-kashar-panini": {
+    images: ["/images/menu/soujuk-panini.jpg"],
+    funFacts: [
+      "Panini is actually the plural form of 'panino' in Italian, which simply means 'small bread roll'.",
+      "Kashkaval (Kashar) cheese is a type of yellow cheese made from sheep's milk that's popular in Turkey and the Balkans.",
+      "The modern panini press was invented in Italy in the 1970s."
+    ],
+    ingredients: [
+      "Ciabatta bread",
+      "Soujuk (Turkish sausage)",
+      "Kashar cheese",
+      "Pepper paste",
+      "Walnuts",
+      "Hazelnuts",
+      "Mixed greens",
+      "French fries"
+    ],
+    preparationTime: "12 mins",
+    servingSize: "1 person",
+    difficulty: "Medium",
+    relatedItems: ["soujuk-omelette", "meat-eggs-kavurma"],
+    nutrition: {
+      calories: 650,
+      protein: 28,
+      carbs: 45,
+      fat: 42
+    }
   }
 };
