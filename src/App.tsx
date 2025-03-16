@@ -15,6 +15,7 @@ import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer/Footer";
 import { Privacy } from "./pages/Privacy";
 import { CateringPage } from "./pages/CateringPage";
+import { PageLayout } from "./components/Layout/PageLayout";
 
 function HomePage() {
   return (
@@ -37,14 +38,16 @@ export default function App() {
     <Router>
       <div className="min-h-screen">
         <Header />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/menu/:slug" element={<MenuItemDetail />} />
-          <Route path="/catering" element={<CateringPage />} />
-          <Route path="/catering/:id" element={<CateringItemDetail />} />
-          <Route path="/privacy" element={<Privacy />} />
-        </Routes>
+        <PageLayout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/menu/:slug" element={<MenuItemDetail />} />
+            <Route path="/catering" element={<CateringPage />} />
+            <Route path="/catering/:id" element={<CateringItemDetail />} />
+            <Route path="/privacy" element={<Privacy />} />
+          </Routes>
+        </PageLayout>
         <Footer />
       </div>
     </Router>

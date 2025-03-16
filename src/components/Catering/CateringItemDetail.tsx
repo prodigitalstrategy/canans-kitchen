@@ -48,7 +48,7 @@ export function CateringItemDetail() {
 
   if (!cateringItem) {
     return (
-      <div className="container mx-auto px-4 py-12 text-center">
+      <div className="container mx-auto px-4 py-12 mt-4 text-center">
         <h1 className="text-2xl font-medium text-gray-800 mb-4">Catering item not found</h1>
         <p className="text-gray-600 mb-6">The catering item you're looking for doesn't exist or has been removed.</p>
         <Link
@@ -63,9 +63,9 @@ export function CateringItemDetail() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12 mt-8">
       {/* Breadcrumb */}
-      <div className="mb-8">
+      <div className="mb-8 pt-4">
         <Link
           to="/#catering"
           className="inline-flex items-center text-gray-500 hover:text-primary transition-colors"

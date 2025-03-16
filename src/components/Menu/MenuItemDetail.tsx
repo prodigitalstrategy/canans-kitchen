@@ -39,7 +39,7 @@ export function MenuItemDetail() {
 
   if (!menuItem || !details) {
     return (
-      <div className="container mx-auto px-4 py-12 text-center">
+      <div className="container mx-auto px-4 py-12 mt-4 text-center">
         <h1 className="text-2xl font-medium text-gray-800 mb-4">Menu item not found</h1>
         <p className="text-gray-600 mb-6">The menu item you're looking for doesn't exist or has been removed.</p>
         <Link
@@ -74,10 +74,10 @@ export function MenuItemDetail() {
   };
 
   return (
-    <div className="bg-warm-50 py-16">
+    <div className="bg-warm-50 py-16 mt-8">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="mb-8">
+        <div className="mb-8 pt-4">
           <nav className="flex text-sm">
             <Link to="/" className="text-gray-500 hover:text-primary">Home</Link>
             <span className="mx-2 text-gray-400">/</span>
