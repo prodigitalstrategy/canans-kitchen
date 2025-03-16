@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Coffee, Leaf, Wheat, ChefHat } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { menuItems } from "./menuData";
 import { MenuItem } from "./MenuItem";
 
@@ -92,7 +93,7 @@ export function Menu() {
               className={`
                 px-6 py-3 rounded-full text-lg font-medium transition-all duration-300
                 ${selectedCategory === category
-                  ? "bg-primary text-white shadow-lg ring-2 ring-primary/20"
+                  ? "bg-primary text-white shadow-lg ring-2 ring-primary/20 scale-105"
                   : "bg-white text-gray-700 hover:bg-gray-100 hover:shadow"}
               `}
             >
@@ -104,11 +105,21 @@ export function Menu() {
         {/* Menu Items */}
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {menuItems
-              .filter((item) => item.category === selectedCategory)
-              .map((item, index) => (
-                <MenuItem key={index} {...item} />
-              ))}
+            <AnimatePresence mode="wait">
+              {menuItems
+                .filter((item) => item.category === selectedCategory)
+                .map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <MenuItem key={index} {...item} />
+                  </motion.div>
+                ))}
+            </AnimatePresence>
           </div>
         </div>
 
