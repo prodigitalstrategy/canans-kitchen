@@ -1,4 +1,4 @@
-import { ChevronRight, Clock } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface MenuItemProps {
@@ -29,6 +29,7 @@ export function MenuItem({
       className="group relative block cursor-pointer bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 mb-4"
     >
       <div className="p-6 transition-all duration-300">
+        {/* Header with name and dietary info */}
         <div className="flex justify-between items-start mb-4">
           <h3 className="font-display text-xl text-primary group-hover:text-primary-dark transition-colors">
             {name}
@@ -47,14 +48,17 @@ export function MenuItem({
           </div>
         </div>
 
+        {/* Description */}
         <p className="text-gray-600 mb-4">
           {description}
         </p>
         
+        {/* Allergen warning if applicable */}
         {hasAllergens && (
           <p className="text-amber-600 text-xs mb-2">⚠️ Contains allergens</p>
         )}
         
+        {/* Adjustments if available */}
         {adjustments && adjustments.length > 0 && (
           <div className="mb-4">
             <p className="text-gray-500 text-sm">
@@ -69,14 +73,11 @@ export function MenuItem({
           </div>
         )}
 
+        {/* Price section */}
         <div className="mt-4 pt-4 border-t border-gray-100">
           <div className="flex items-center justify-between">
             <span className="font-medium text-primary-dark">
               ${price.toFixed(2)}
-            </span>
-            <span className="text-gray-500 text-sm">
-              <Clock size={16} className="inline mr-1" />
-              10-15 mins
             </span>
           </div>
         </div>
