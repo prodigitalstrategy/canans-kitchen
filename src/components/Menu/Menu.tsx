@@ -91,13 +91,13 @@ export function Menu() {
         </div>
 
         {/* Menu Categories */}
-        <div className="flex overflow-x-auto whitespace-nowrap gap-2 xs:gap-3 px-1 mb-8 snap-x scrollbar-hide">
+        <div className="flex overflow-x-auto flex-nowrap min-w-0 gap-2 xs:gap-3 px-1 -mx-2 mb-8 snap-x">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
               className={`
-                inline-block px-5 xs:px-6 py-2 xs:py-3 mx-0 my-1 rounded-full text-base xs:text-lg font-medium transition-all duration-300 min-w-[120px] xs:min-w-[140px] snap-center
+                inline-block whitespace-nowrap min-w-fit px-5 xs:px-6 py-2 xs:py-3 mx-0 my-1 rounded-full text-base xs:text-lg font-medium transition-all duration-300 min-w-[120px] xs:min-w-[140px] snap-center
                 ${selectedCategory === category
                   ? "bg-primary text-white shadow-lg ring-2 ring-primary/20 scale-105"
                   : "bg-white text-gray-700 hover:bg-gray-100 hover:shadow"}

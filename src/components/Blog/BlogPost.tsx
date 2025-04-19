@@ -117,40 +117,42 @@ export function BlogPost() {
   return (
     <article className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative h-[60vh] overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={post.image}
-            alt={post.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80" />
-        </div>
-        <div className="relative container mx-auto px-4 h-full flex flex-col justify-end pb-16">
-          <button
-            onClick={() => navigate("/")}
-            className="inline-flex items-center text-white/90 hover:text-white transition-colors mb-8 group"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </button>
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-4 text-white/80 mb-4">
-              <div className="flex items-center gap-1">
-                <Calendar size={18} />
-                <time>{post.date}</time>
+      <div className="relative h-[60vh] overflow-hidden flex items-end">
+        <img
+          src={post.image}
+          alt={post.title}
+          className="absolute inset-0 w-full h-full object-cover z-0 brightness-90 scale-105"
+        />
+        {/* Multi-layered gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-primary/30 to-black/80 z-10" />
+        {/* Glassy title card */}
+        <div className="relative z-20 w-full">
+          <div className="container mx-auto px-4 flex flex-col justify-end h-[60vh] pb-12 md:pb-20">
+            <button
+              onClick={() => navigate("/")}
+              className="inline-flex items-center text-white/90 hover:text-white transition-colors mb-8 group backdrop-blur-sm bg-black/30 px-4 py-2 rounded-xl shadow-lg"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
+              Back to Home
+            </button>
+            <div className="max-w-4xl">
+              <div className="flex flex-wrap items-center gap-4 text-white/80 mb-4">
+                <div className="flex items-center gap-1">
+                  <Calendar size={18} />
+                  <time>{post.date}</time>
+                </div>
+                <div className="flex items-center gap-1">
+                  <User size={18} />
+                  <span>{post.author}</span>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-primary/30 text-white text-sm font-semibold shadow-md">
+                  {post.category}
+                </span>
               </div>
-              <div className="flex items-center gap-1">
-                <User size={18} />
-                <span>{post.author}</span>
-              </div>
-              <span className="px-3 py-1 rounded-full bg-primary/20 text-white text-sm">
-                {post.category}
-              </span>
+              <h1 className="text-4xl md:text-6xl font-display font-extrabold text-white mb-6 leading-tight drop-shadow-2xl bg-gradient-to-br from-white/80 to-primary/60 bg-clip-text text-transparent animate-fade-in">
+                {post.title}
+              </h1>
             </div>
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 leading-tight">
-              {post.title}
-            </h1>
           </div>
         </div>
       </div>
@@ -160,17 +162,17 @@ export function BlogPost() {
         <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
           {/* Article Content */}
           <div className="lg:col-span-2">
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-lg max-w-none animate-fade-in-up">
               {renderContent(post.content)}
             </div>
           </div>
 
           {/* Sidebar */}
           <aside className="lg:col-span-1">
-            <div className="sticky top-24 space-y-8">
+            <div className="sticky top-24 space-y-10">
               {/* Quick Facts Card */}
-              <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div className="bg-primary/5 p-6">
+              <div className="rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl bg-white/80 dark:bg-gray-900/70 border border-primary/10 animate-fade-in delay-100">
+                <div className="bg-primary/10 p-6">
                   <h3 className="font-display font-semibold text-xl text-primary mb-4">
                     Quick Facts
                   </h3>
@@ -178,28 +180,28 @@ export function BlogPost() {
                     <div className="flex items-center gap-2">
                       <Clock className="text-primary" size={20} />
                       <div>
-                        <p className="text-sm text-gray-600">Prep Time</p>
+                        <p className="text-xs text-gray-600">Prep Time</p>
                         <p className="font-semibold">15 mins</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="text-primary" size={20} />
                       <div>
-                        <p className="text-sm text-gray-600">Cook Time</p>
+                        <p className="text-xs text-gray-600">Cook Time</p>
                         <p className="font-semibold">30-35 mins</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <Users className="text-primary" size={20} />
                       <div>
-                        <p className="text-sm text-gray-600">Servings</p>
+                        <p className="text-xs text-gray-600">Servings</p>
                         <p className="font-semibold">4-6 people</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <ChefHat className="text-primary" size={20} />
                       <div>
-                        <p className="text-sm text-gray-600">Difficulty</p>
+                        <p className="text-xs text-gray-600">Difficulty</p>
                         <p className="font-semibold">Medium</p>
                       </div>
                     </div>
@@ -208,7 +210,7 @@ export function BlogPost() {
               </div>
 
               {/* Share Card */}
-              <div className="bg-white rounded-2xl shadow-xl p-6">
+              <div className="rounded-2xl shadow-2xl p-6 bg-white/80 dark:bg-gray-900/70 border border-primary/10 animate-fade-in delay-200">
                 <div className="flex items-center gap-2 mb-4">
                   <Share2 className="text-primary" size={20} />
                   <h3 className="font-display font-semibold text-xl">
@@ -222,7 +224,7 @@ export function BlogPost() {
                     )}&url=${encodeURIComponent(window.location.href)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-[#1DA1F2]/10 text-[#1DA1F2] rounded-lg hover:bg-[#1DA1F2]/20 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#1DA1F2]/10 text-[#1DA1F2] rounded-lg hover:bg-[#1DA1F2]/20 transition-colors shadow-md"
                   >
                     <Twitter size={18} />
                     Twitter
@@ -233,7 +235,7 @@ export function BlogPost() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-[#4267B2]/10 text-[#4267B2] rounded-lg hover:bg-[#4267B2]/20 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#4267B2]/10 text-[#4267B2] rounded-lg hover:bg-[#4267B2]/20 transition-colors shadow-md"
                   >
                     <Facebook size={18} />
                     Facebook
@@ -244,7 +246,7 @@ export function BlogPost() {
               {/* Print Button */}
               <button
                 onClick={() => window.print()}
-                className="w-full px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 font-medium"
+                className="w-full px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 font-semibold shadow-lg animate-fade-in delay-300"
               >
                 Print Recipe
                 <svg

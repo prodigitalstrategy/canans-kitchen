@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import ScrollToTop from "./components/ScrollToTop";
 import { SEO } from "./components/SEO";
 import { StructuredData } from "./components/StructuredData";
 import { Header } from "./components/Header/Header";
@@ -45,6 +46,7 @@ export default function App() {
       <SEO />
       <StructuredData />
       <Router>
+        <ScrollToTop />
         <div className="min-h-screen">
           <Header openOrderModal={openModal} />
           <div className="pt-20 md:pt-28">
