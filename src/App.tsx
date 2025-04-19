@@ -3,6 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { SEO } from "./components/SEO";
 import { StructuredData } from "./components/StructuredData";
 import { Header } from "./components/Header/Header";
+import { useOrderModal } from "./components/Menu/OrderModalWrapper";
 import { Hero } from "./components/Hero";
 import { Features } from "./components/Features";
 import { Story } from "./components/About/Story";
@@ -38,13 +39,14 @@ function HomePage() {
 }
 
 export default function App() {
+  const { openModal, modal } = useOrderModal();
   return (
     <HelmetProvider>
       <SEO />
       <StructuredData />
       <Router>
         <div className="min-h-screen">
-          <Header />
+          <Header openOrderModal={openModal} />
           <div className="pt-20 md:pt-28">
             <PageLayout>
               <Routes>
@@ -57,8 +59,9 @@ export default function App() {
             </Routes>
             </PageLayout>
           </div>
-          <MobileOrderBar />
+          <MobileOrderBar openOrderModal={openModal} />
           <Footer />
+          {modal}
         </div>
       </Router>
     </HelmetProvider>

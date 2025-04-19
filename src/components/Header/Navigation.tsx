@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface NavigationProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  openOrderModal?: () => void;
+  openOrderModal: (itemName: string) => void;
 }
 
 export function Navigation({ isOpen, setIsOpen, openOrderModal }: NavigationProps) {
@@ -26,7 +26,7 @@ export function Navigation({ isOpen, setIsOpen, openOrderModal }: NavigationProp
   const orderButton = (
     <button
       key="order-online"
-      onClick={openOrderModal}
+      onClick={() => openOrderModal("")}
       className="ml-2 px-5 py-2 rounded-lg bg-primary text-white font-bold shadow hover:bg-primary-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"
       aria-label="Order Online (Pickup & Delivery)"
       tabIndex={0}
