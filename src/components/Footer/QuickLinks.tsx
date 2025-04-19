@@ -68,9 +68,9 @@ export function QuickLinks() {
       <ul className="space-y-2">
         <li>
           <a
-            href="#catering"
+            href="#homepage-catering"
             className={linkClass}
-            onClick={handleClick("#catering")}
+            onClick={handleClick("#homepage-catering")}
           >
             Catering
           </a>

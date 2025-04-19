@@ -6,7 +6,7 @@ interface PageLayoutProps {
 
 export function PageLayout({ children }: PageLayoutProps) {
   return (
-    <div className="pt-28 md:pt-32">
+    <div>
       {children}
     </div>
   );

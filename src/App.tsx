@@ -45,8 +45,9 @@ export default function App() {
       <Router>
         <div className="min-h-screen">
           <Header />
-          <PageLayout>
-            <Routes>
+          <div className="pt-20 md:pt-28">
+            <PageLayout>
+              <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/menu/:slug" element={<MenuItemDetail />} />
@@ -54,7 +55,8 @@ export default function App() {
               <Route path="/catering/:id" element={<CateringItemDetail />} />
               <Route path="/privacy" element={<Privacy />} />
             </Routes>
-          </PageLayout>
+            </PageLayout>
+          </div>
           <MobileOrderBar />
           <Footer />
         </div>

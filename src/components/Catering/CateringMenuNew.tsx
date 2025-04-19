@@ -21,13 +21,16 @@ export function CateringMenuNew() {
         </div>
 
         {/* Menu Categories */}
-        <div className="flex justify-center gap-6 mb-12">
+        {/* Responsive, scrollable category button row */}
+        <div className="flex gap-3 sm:gap-6 mb-12 overflow-x-auto flex-nowrap min-w-0 px-1 -mx-2 sm:mx-0">
           {['pastries', 'mains', 'desserts'].map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category as any)}
               className={`
-                px-6 py-3 rounded-full text-lg font-medium transition-all duration-300
+                whitespace-nowrap min-w-fit
+                px-4 sm:px-6 py-2 sm:py-3
+                rounded-full text-base sm:text-lg font-medium transition-all duration-300
                 ${selectedCategory === category
                   ? 'bg-primary text-white shadow-lg scale-105'
                   : 'bg-white text-gray-600 hover:bg-gray-50'}
