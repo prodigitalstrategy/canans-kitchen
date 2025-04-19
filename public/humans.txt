@@ -1,0 +1,8 @@
+/* TEAM */
+Developer: Canan's Kitchen Web Team
+Contact: info@cananskitchen.com
+Last update: 2025-04-18
+
+/* SITE */
+Site: https://cananskitchen.com/
+Location: Fountain Valley, CA, USA
