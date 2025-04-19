@@ -17,16 +17,20 @@ import { Blog } from "./components/Blog/Blog";
 import { BlogPost } from "./components/Blog/BlogPost";
 import { Reviews } from "./components/Reviews/Reviews";
 import { Contact } from "./components/Contact";
-import { Footer } from "./components/Footer/Footer";
+import Footer from "./components/Footer/Footer";
 import { MobileOrderBar } from "./components/MobileOrderBar";
 import { Privacy } from "./pages/Privacy";
 import { CateringPage } from "./pages/CateringPage";
 import { PageLayout } from "./components/Layout/PageLayout";
 
-function HomePage() {
+import React, { useRef, useEffect, useState } from "react";
+
+function HomePage({ heroRef }: { heroRef: React.RefObject<HTMLDivElement> }) {
   return (
     <>
-      <Hero />
+      <div ref={heroRef} id="hero-observe">
+        <Hero />
+      </div>
       <Features />
       <Story />
       <Gallery />
@@ -41,6 +45,48 @@ function HomePage() {
 
 export default function App() {
   const { openModal, modal } = useOrderModal();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
+  const [showOrderBar, setShowOrderBar] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isMobile = () => window.innerWidth < 768;
+    if (!isMobile()) {
+      setShowOrderBar(false);
+      setFooterVisible(false);
+      return;
+    }
+    const hero = heroRef.current;
+    const footer = footerRef.current;
+    if (!hero || !footer) return;
+    let heroOut = false;
+    let footerIn = false;
+    const update = () => setShowOrderBar(heroOut && !footerIn);
+    const heroObserver = new window.IntersectionObserver(
+      ([entry]) => {
+        heroOut = !entry.isIntersecting;
+        update();
+      },
+      { threshold: 0.1 }
+    );
+    const footerObserver = new window.IntersectionObserver(
+      ([entry]) => {
+        footerIn = entry.isIntersecting;
+        setFooterVisible(footerIn);
+        update();
+      },
+      { threshold: 0.1 }
+    );
+    heroObserver.observe(hero);
+    footerObserver.observe(footer);
+    return () => {
+      heroObserver.disconnect();
+      footerObserver.disconnect();
+    };
+  }, []);
+
   return (
     <HelmetProvider>
       <SEO />
@@ -52,18 +98,18 @@ export default function App() {
           <div className="pt-20 md:pt-28">
             <PageLayout>
               <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/menu/:slug" element={<MenuItemDetail />} />
-              <Route path="/catering" element={<CateringPage />} />
-              <Route path="/catering/:id" element={<CateringItemDetail />} />
-              <Route path="/privacy" element={<Privacy />} />
-            </Routes>
+                <Route path="/" element={<HomePage heroRef={heroRef} />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/menu/:slug" element={<MenuItemDetail />} />
+                <Route path="/catering" element={<CateringPage />} />
+                <Route path="/catering/:id" element={<CateringItemDetail />} />
+                <Route path="/privacy" element={<Privacy />} />
+              </Routes>
+              {modal}
             </PageLayout>
+            <MobileOrderBar openOrderModal={openModal} show={showOrderBar} />
           </div>
-          <MobileOrderBar openOrderModal={openModal} />
-          <Footer />
-          {modal}
+          <Footer ref={footerRef} />
         </div>
       </Router>
     </HelmetProvider>

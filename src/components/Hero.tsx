@@ -6,10 +6,10 @@ export function Hero() {
     <div className="relative min-h-screen flex overflow-x-hidden">
       {/* Full-width responsive background image */}
       <img
-        src="/gallery/turkish-breakfast.jpg"
-        srcSet="/gallery/turkish-breakfast.jpg 800w, /gallery/turkish-breakfast.jpg 1600w"
+        src="/gallery/hero-image.jpg"
+        srcSet="/gallery/hero-image.jpg 800w, /gallery/hero-image.jpg 1600w"
         sizes="100vw"
-        alt="Turkish breakfast spread at Canan's Kitchen"
+        alt="Canan's Kitchen hero image"
         className="absolute inset-0 w-full h-full object-cover z-0"
         loading="lazy"
         draggable="false"

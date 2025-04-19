@@ -12,8 +12,8 @@ export function Header({ openOrderModal }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed w-full bg-white border-b border-gray-200 shadow-md z-50" aria-label="Site Header">
-      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+    <header className="sticky top-0 w-full bg-white border-b border-gray-200 shadow-lg z-50" aria-label="Site Header">
+      <div className="w-full max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
         {/* Logo always links home */}
         <Logo />
         <Navigation isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} openOrderModal={openOrderModal} />

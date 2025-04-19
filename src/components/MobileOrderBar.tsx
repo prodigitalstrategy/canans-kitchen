@@ -2,11 +2,13 @@ import React from "react";
 
 interface MobileOrderBarProps {
   openOrderModal: (itemName: string) => void;
+  show?: boolean;
 }
 
-export function MobileOrderBar({ openOrderModal }: MobileOrderBarProps) {
+export function MobileOrderBar({ openOrderModal, show }: MobileOrderBarProps) {
+  if (show === false) return null;
   return (
-    <div className="fixed bottom-0 left-0 w-full z-50 md:hidden pointer-events-none">
+    <div className="fixed bottom-0 left-0 w-full z-50 md:hidden pointer-events-none animate-fade-in">
       <div className="flex justify-center">
         <button
           onClick={() => openOrderModal("")}

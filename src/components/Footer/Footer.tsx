@@ -1,11 +1,11 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { SocialLinks } from "./SocialLinks";
 import { QuickLinks } from "./QuickLinks";
 import { Clock } from "lucide-react";
 
-export function Footer() {
+const Footer = forwardRef<HTMLElement>((_props, ref) => {
   return (
-    <footer className="bg-primary text-white pt-16 pb-8">
+    <footer ref={ref} className="bg-primary text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* About Section */}
@@ -75,4 +75,6 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+export default Footer;
