@@ -96,7 +96,7 @@ export function getOperatingStatus(): OperatingStatus {
     const nextOpen = findNextOpening(now);
     return {
       isOpen: false,
-      statusText: "Closed Today",
+      statusText: nextOpen ? `Opens ${nextOpen}` : "Closed",
       statusType: "closed",
       nextChange: nextOpen,
     };
@@ -104,11 +104,12 @@ export function getOperatingStatus(): OperatingStatus {
   
   const range = parseHoursRange(todayHours.hours);
   if (!range) {
+    const nextOpen = findNextOpening(now);
     return {
       isOpen: false,
-      statusText: "Closed",
+      statusText: nextOpen ? `Opens ${nextOpen}` : "Closed",
       statusType: "closed",
-      nextChange: null,
+      nextChange: nextOpen,
     };
   }
   
@@ -160,7 +161,7 @@ export function getOperatingStatus(): OperatingStatus {
   const nextOpen = findNextOpening(now);
   return {
     isOpen: false,
-    statusText: "Closed",
+    statusText: nextOpen ? `Opens ${nextOpen}` : "Closed",
     statusType: "closed",
     nextChange: nextOpen,
   };
@@ -182,10 +183,11 @@ function findNextOpening(from: Date): string | null {
     if (dayHours && dayHours.hours.toLowerCase() !== "closed") {
       const range = parseHoursRange(dayHours.hours);
       if (range) {
+        const timeStr = formatTime(range.start);
         if (i === 1) {
-          return `Tomorrow at ${formatTime(range.start)}`;
+          return `${timeStr} Tomorrow`;
         }
-        return `${checkDay} at ${formatTime(range.start)}`;
+        return `${timeStr} ${checkDay}`;
       }
     }
   }

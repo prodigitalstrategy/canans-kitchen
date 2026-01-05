@@ -86,20 +86,27 @@ export function LiveStatus({ variant = "badge", showIcon = true }: LiveStatusPro
 
   // Inline variant - for header
   if (variant === "inline") {
+    // For closed status, show abbreviated version
+    const inlineText = status.isOpen 
+      ? "Open Now" 
+      : status.nextChange 
+        ? `Opens ${status.nextChange}` 
+        : "Closed";
+    
     return (
       <div
         className={`
           inline-flex items-center gap-2 px-3 py-1.5 rounded-full 
-          bg-white border ${colors.border} text-sm font-medium
+          bg-white border ${colors.border} text-sm font-medium whitespace-nowrap
         `}
         role="status"
         aria-live="polite"
       >
-        <span className="relative flex h-2 w-2">
+        <span className="relative flex h-2 w-2 flex-shrink-0">
           <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${colors.dot} opacity-75`}></span>
           <span className={`relative inline-flex rounded-full h-2 w-2 ${colors.bg}`}></span>
         </span>
-        <span className={colors.text}>{status.isOpen ? "Open Now" : "Closed"}</span>
+        <span className={colors.text}>{inlineText}</span>
       </div>
     );
   }
