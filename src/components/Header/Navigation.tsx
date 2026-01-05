@@ -18,11 +18,11 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
   const todayHours = getTodayHours();
 
   const menuItems = [
-    { to: "#story", text: "Our Story", type: "section", icon: "📖" },
-    { to: "#menu", text: "Menu", type: "section", icon: "🍽️" },
-    { to: "/catering", text: "Catering", type: "page", icon: "🎉" },
-    { to: "#reviews", text: "Reviews", type: "section", icon: "⭐" },
-    { to: "#contact", text: "Contact", type: "section", icon: "📍" },
+    { to: "#story", text: "Our Story", type: "section" },
+    { to: "#menu", text: "Menu", type: "section" },
+    { to: "/catering", text: "Catering", type: "page" },
+    { to: "#reviews", text: "Reviews", type: "section" },
+    { to: "#contact", text: "Contact", type: "section" },
   ];
 
   const handleClose = () => {
@@ -106,13 +106,7 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
             >
               {/* Header */}
               <div className="sticky top-0 flex items-center justify-between p-4 border-b border-charcoal/10 bg-white z-10">
-                <div className="flex items-center gap-3">
-                  <img src="/logo.png" alt="" className="h-10 w-auto" />
-                  <div>
-                    <p className="font-display text-lg text-primary">Canan's Kitchen</p>
-                    <p className="text-xs text-charcoal-light">& Bakery</p>
-                  </div>
-                </div>
+                <img src="/logo.png" alt="Canan's Kitchen & Bakery" className="h-10 w-auto" />
                 <button
                   onClick={handleClose}
                   className="p-2 rounded-full hover:bg-charcoal/5 transition-colors"
@@ -137,14 +131,13 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
                     
                     const content = (
                       <>
-                        <span className="text-2xl">{item.icon}</span>
                         <span className="flex-1 text-lg font-medium text-charcoal">{item.text}</span>
                         <ChevronRight size={20} className="text-charcoal-light/50" />
                       </>
                     );
 
                     const className = `
-                      flex items-center gap-4 py-4 px-4 rounded-xl transition-all
+                      flex items-center gap-3 py-4 px-4 rounded-xl transition-all
                       ${isActive ? 'bg-primary/10 text-primary' : 'hover:bg-cream'}
                     `;
 
