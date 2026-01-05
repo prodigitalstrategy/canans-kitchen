@@ -1,7 +1,8 @@
-import { ChevronRight, X, Phone, MapPin } from "lucide-react";
+import { ChevronRight, X, Phone, MapPin, Clock } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { LiveStatus } from "../CTA/LiveStatus";
+import { getTodayHours } from "../../utils/operatingStatus";
 
 interface NavigationProps {
   isOpen: boolean;
@@ -14,21 +15,22 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
+  const todayHours = getTodayHours();
 
   const menuItems = [
-    { to: "#story", text: "Our Story", type: "section" },
-    { to: "#menu", text: "Menu", type: "section" },
-    { to: "/catering", text: "Catering", type: "page" },
-    { to: "#reviews", text: "Reviews", type: "section" },
-    { to: "#contact", text: "Contact", type: "section" },
+    { to: "#story", text: "Our Story", type: "section", icon: "📖" },
+    { to: "#menu", text: "Menu", type: "section", icon: "🍽️" },
+    { to: "/catering", text: "Catering", type: "page", icon: "🎉" },
+    { to: "#reviews", text: "Reviews", type: "section", icon: "⭐" },
+    { to: "#contact", text: "Contact", type: "section", icon: "📍" },
   ];
 
-  const handleClick = () => {
+  const handleClose = () => {
     setIsOpen(false);
   };
 
   const handleSectionClick = (e: React.MouseEvent, to: string) => {
-    handleClick();
+    handleClose();
 
     if (isHomePage && to.startsWith("#")) {
       const element = document.querySelector(to);
@@ -48,55 +50,20 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
     }
   };
 
-  type NavLinkType = "section" | "page";
-
-  const NavLink = ({
-    to,
-    type,
-    children,
-  }: {
-    to: string;
-    type: NavLinkType;
-    children: React.ReactNode;
-  }) => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  // Desktop NavLink
+  const DesktopNavLink = ({ to, type, children }: { to: string; type: string; children: React.ReactNode }) => {
+    const isActive = type === "page" ? location.pathname === to : location.hash === to;
+    
+    const className = `
+      py-2 px-3 rounded-lg transition-all font-medium text-charcoal
+      hover:text-primary hover:bg-primary/5
+      ${isActive ? 'text-primary' : ''}
+    `;
 
     return type === "page" ? (
-      <Link
-        to={to}
-        className={`
-          group flex items-center gap-2 py-2 px-3 rounded-lg transition-all font-medium
-          ${isMobile ? 'hover:bg-primary/5 text-lg' : 'hover:text-primary text-charcoal'}
-          ${location.pathname === to ? 'text-primary' : ''}
-        `}
-        onClick={handleClick}
-      >
-        <span>{children}</span>
-        {isMobile && (
-          <ChevronRight 
-            className="ml-auto text-charcoal-light/40 group-hover:text-primary transition-colors" 
-            size={18} 
-          />
-        )}
-      </Link>
+      <Link to={to} className={className}>{children}</Link>
     ) : (
-      <a
-        href={to}
-        className={`
-          group flex items-center gap-2 py-2 px-3 rounded-lg transition-all font-medium
-          ${isMobile ? 'hover:bg-primary/5 text-lg' : 'hover:text-primary text-charcoal'}
-          ${location.hash === to ? 'text-primary' : ''}
-        `}
-        onClick={(e) => handleSectionClick(e, to)}
-      >
-        <span>{children}</span>
-        {isMobile && (
-          <ChevronRight 
-            className="ml-auto text-charcoal-light/40 group-hover:text-primary transition-colors" 
-            size={18} 
-          />
-        )}
-      </a>
+      <a href={to} className={className} onClick={(e) => handleSectionClick(e, to)}>{children}</a>
     );
   };
 
@@ -105,91 +72,135 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-1">
         {menuItems.map((item) => (
-          <NavLink 
-            key={item.to} 
-            to={item.to} 
-            type={item.type as NavLinkType}
-          >
+          <DesktopNavLink key={item.to} to={item.to} type={item.type}>
             {item.text}
-          </NavLink>
+          </DesktopNavLink>
         ))}
       </nav>
 
       {/* Mobile Navigation Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-charcoal/50 backdrop-blur-sm z-50 md:hidden"
-            onClick={() => setIsOpen(false)}
-          >
-            {/* Mobile Menu Panel */}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50 md:hidden"
+              onClick={handleClose}
+              aria-hidden="true"
+            />
+            
+            {/* Menu Panel - Simple full-height div */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl flex flex-col"
-              onClick={(e) => e.stopPropagation()}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed right-0 top-0 h-screen w-[85vw] max-w-[320px] bg-white shadow-2xl z-[60] md:hidden overflow-y-auto"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
             >
               {/* Header */}
-              <div className="p-5 flex justify-between items-center border-b border-charcoal/10">
-                <div>
-                  <span className="font-display text-xl text-primary">Menu</span>
-                  <div className="mt-1">
-                    <LiveStatus variant="inline" />
+              <div className="sticky top-0 flex items-center justify-between p-4 border-b border-charcoal/10 bg-white z-10">
+                <div className="flex items-center gap-3">
+                  <img src="/logo.png" alt="" className="h-10 w-auto" />
+                  <div>
+                    <p className="font-display text-lg text-primary">Canan's Kitchen</p>
+                    <p className="text-xs text-charcoal-light">& Bakery</p>
                   </div>
                 </div>
-                <motion.button
-                  whileHover={{ rotate: 90 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setIsOpen(false)}
-                  className="p-2 hover:bg-charcoal/5 rounded-full transition-colors"
+                <button
+                  onClick={handleClose}
+                  className="p-2 rounded-full hover:bg-charcoal/5 transition-colors"
                   aria-label="Close menu"
                 >
                   <X size={24} className="text-charcoal" />
-                </motion.button>
+                </button>
               </div>
 
-              {/* Menu Items */}
-              <nav className="flex-1 py-4 px-2 overflow-y-auto">
+              {/* Status Bar */}
+              <div className="px-4 py-3 bg-cream/50 border-b border-charcoal/5">
+                <LiveStatus variant="inline" />
+              </div>
+
+              {/* Navigation Links */}
+              <nav className="py-4 px-3 bg-white">
                 <div className="space-y-1">
-                  {menuItems.map((item) => (
-                    <NavLink 
-                      key={item.to} 
-                      to={item.to} 
-                      type={item.type as NavLinkType}
-                    >
-                      {item.text}
-                    </NavLink>
-                  ))}
+                  {menuItems.map((item) => {
+                    const isActive = item.type === "page" 
+                      ? location.pathname === item.to 
+                      : location.hash === item.to;
+                    
+                    const content = (
+                      <>
+                        <span className="text-2xl">{item.icon}</span>
+                        <span className="flex-1 text-lg font-medium text-charcoal">{item.text}</span>
+                        <ChevronRight size={20} className="text-charcoal-light/50" />
+                      </>
+                    );
+
+                    const className = `
+                      flex items-center gap-4 py-4 px-4 rounded-xl transition-all
+                      ${isActive ? 'bg-primary/10 text-primary' : 'hover:bg-cream'}
+                    `;
+
+                    return item.type === "page" ? (
+                      <Link 
+                        key={item.to} 
+                        to={item.to} 
+                        className={className} 
+                        onClick={handleClose}
+                      >
+                        {content}
+                      </Link>
+                    ) : (
+                      <a 
+                        key={item.to} 
+                        href={item.to} 
+                        className={className} 
+                        onClick={(e) => handleSectionClick(e, item.to)}
+                      >
+                        {content}
+                      </a>
+                    );
+                  })}
                 </div>
               </nav>
 
-              {/* Footer CTAs */}
-              <div className="p-5 border-t border-charcoal/10 space-y-3">
+              {/* Footer with CTAs */}
+              <div className="p-4 border-t border-charcoal/10 bg-cream/30">
+                {/* Today's Hours */}
+                <div className="flex items-center gap-2 text-sm text-charcoal-light mb-4">
+                  <Clock size={16} />
+                  <span>Today: {todayHours}</span>
+                </div>
+                
+                {/* Call Button */}
                 <a
                   href="tel:+19493946318"
-                  className="flex items-center justify-center gap-2 w-full py-3.5 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors font-medium"
+                  className="flex items-center justify-center gap-3 w-full py-4 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors font-semibold text-lg shadow-lg shadow-primary/20 mb-3"
                 >
-                  <Phone size={20} />
-                  <span>Call (949) 394-6318</span>
+                  <Phone size={22} />
+                  <span>Call Now</span>
                 </a>
+                
+                {/* Directions Button */}
                 <a
                   href={GOOGLE_MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-3.5 bg-secondary text-white rounded-xl hover:bg-secondary-dark transition-colors font-medium"
+                  className="flex items-center justify-center gap-3 w-full py-3 bg-white border-2 border-charcoal/20 text-charcoal rounded-xl hover:border-primary hover:text-primary transition-colors font-medium"
                 >
                   <MapPin size={20} />
                   <span>Get Directions</span>
                 </a>
               </div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
