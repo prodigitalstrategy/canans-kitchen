@@ -80,7 +80,7 @@ export function CateringItemDetail() {
         {/* Image */}
         <div className="w-full md:w-1/2 rounded-xl overflow-hidden shadow-lg">
           <img
-            src={getItemImage(cateringItem.category)}
+            src={cateringItem.imageUrl || getItemImage(cateringItem.category)}
             alt={cateringItem.name}
             className="w-full h-80 object-cover"
           />
@@ -381,7 +381,7 @@ export function CateringItemDetail() {
               >
                 <div className="h-48 overflow-hidden">
                   <img
-                    src={getItemImage(item.category)}
+                    src={item.imageUrl || getItemImage(item.category)}
                     alt={item.name}
                     className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
                   />
