@@ -5,6 +5,7 @@ import { Features } from "./components/Features";
 import { Story } from "./components/About/Story";
 import { Gallery } from "./components/Gallery";
 import { Menu } from "./components/Menu/Menu";
+import { Drinks } from "./components/Menu/Drinks";
 import { MenuItemDetail } from "./components/Menu/MenuItemDetail";
 import { Catering } from "./components/Catering/Catering";
 import { CateringItemDetail } from "./components/Catering/CateringItemDetail";
@@ -26,6 +27,7 @@ function HomePage() {
       <Story />
       <Gallery />
       <Menu />
+      <Drinks />
       <Catering />
       <Blog />
       <Reviews />

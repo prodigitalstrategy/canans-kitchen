@@ -1,4 +1,4 @@
-import { ChevronRight, Leaf, Wheat, ChefHat } from "lucide-react";
+import { ChevronRight, Leaf, Wheat, ChefHat, Star, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface MenuItemProps {
@@ -8,6 +8,8 @@ interface MenuItemProps {
   isVegetarian?: boolean;
   isVegan?: boolean;
   hasAllergens?: boolean;
+  lunchOnly?: boolean;
+  isTurkishClassic?: boolean;
   adjustments?: string[];
   isChefPick?: boolean;
 }
@@ -19,6 +21,8 @@ export function MenuItem({
   isVegetarian,
   isVegan,
   hasAllergens,
+  lunchOnly,
+  isTurkishClassic,
   adjustments,
   isChefPick,
 }: MenuItemProps) {
@@ -37,6 +41,16 @@ export function MenuItem({
             {name}
           </h3>
           <div className="flex items-center gap-1.5 flex-shrink-0">
+            {isTurkishClassic && (
+              <span className="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center" title="Turkish Classic">
+                <Star size={14} className="text-primary fill-current" />
+              </span>
+            )}
+            {lunchOnly && (
+              <span className="w-7 h-7 bg-accent/20 rounded-full flex items-center justify-center" title="Lunch Only">
+                <Clock size={14} className="text-accent-dark" />
+              </span>
+            )}
             {isChefPick && (
               <span className="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center" title="Chef's Pick">
                 <ChefHat size={14} className="text-primary" />

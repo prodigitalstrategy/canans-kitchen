@@ -20,6 +20,7 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
   const menuItems = [
     { to: "#story", text: "Our Story", type: "section" },
     { to: "#menu", text: "Menu", type: "section" },
+    { to: "#drinks", text: "Drinks", type: "section" },
     { to: "/catering", text: "Catering", type: "page" },
     { to: "#reviews", text: "Reviews", type: "section" },
     { to: "#contact", text: "Contact", type: "section" },

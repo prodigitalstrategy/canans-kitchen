@@ -52,6 +52,15 @@ export function QuickLinks() {
         </li>
         <li>
           <a
+            href="#drinks"
+            className={linkClass}
+            onClick={handleClick("#drinks")}
+          >
+            Drinks
+          </a>
+        </li>
+        <li>
+          <a
             href="#gallery"
             className={linkClass}
             onClick={handleClick("#gallery")}

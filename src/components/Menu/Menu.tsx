@@ -1,41 +1,65 @@
 import { useState } from "react";
-import { Leaf, Wheat, ChefHat, Phone, MapPin } from "lucide-react";
+import { Leaf, Wheat, ChefHat, Phone, MapPin, Star, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { menuItems } from "./menuData";
+import { menuItems, menuSides } from "./menuData";
 import { MenuItem } from "./MenuItem";
 
 const GOOGLE_MAPS_URL = "https://www.google.com/maps/dir/?api=1&destination=Canan's+Kitchen+%26+Bakery,+16937+Bushard+St,+Fountain+Valley,+CA+92708";
 const PHONE_NUMBER = "9493946318";
 
+// Categories follow the printed menu, in the same order.
+const CATEGORIES = [
+  {
+    name: "Breakfast Plates",
+    image: "/gallery/turkish-breakfast.jpg",
+    tagline: "Generous platters perfect for sharing",
+  },
+  {
+    name: "Omelettes",
+    image: "/images/menu/mushroom-omelette.jpg",
+    tagline: "Farm-fresh eggs, all served with bread",
+  },
+  {
+    name: "Menemen (Shakshuka)",
+    image: "/gallery/menemen.jpg",
+    tagline: "Our signature pan of eggs, tomatoes, and peppers",
+  },
+  {
+    name: "Crepes & Pancakes",
+    image: "/images/menu/mixed-crepe.jpg",
+    tagline: "Sweet and savory, made to order",
+  },
+  {
+    name: "Toasts & Panini",
+    image: "/images/menu/soujuk-panini.jpg",
+    tagline: "Pressed and toasted on fresh-baked bread",
+  },
+  {
+    name: "Croissants",
+    image: "/images/menu/egg-cheese-croissant.jpg",
+    tagline: "Buttery, flaky, and filled to order",
+  },
+  {
+    name: "Sandwiches & Wraps",
+    image: "/gallery/simit.jpg",
+    tagline: "Handcrafted with housemade simit and warm wraps",
+  },
+  {
+    name: "Salads & Soup",
+    image: "/gallery/interior.jpg",
+    tagline: "Fresh greens and a warming bowl",
+  },
+];
+
 export function Menu() {
-  // Get unique categories from menuItems and sort them in a logical order
-  const categories = [
-    "Breakfast Platters",
-    "Breakfast Specials",
-    "Eggs & Omelettes",
-    "Sandwiches",
-    "Crepes"
-  ].filter(category => menuItems.some(item => item.category === category));
-  
-  const [selectedCategory, setSelectedCategory] = useState<string>(categories[0]);
-  
-  // Get the appropriate image for each menu category
-  const getCategoryImage = (category: string) => {
-    switch(category) {
-      case "Breakfast Platters":
-        return "/gallery/turkish-breakfast.jpg";
-      case "Breakfast Specials":
-        return "/gallery/breakfast-spread.jpg";
-      case "Eggs & Omelettes":
-        return "/gallery/menemen.jpg";
-      case "Sandwiches":
-        return "/gallery/simit.jpg";
-      case "Crepes":
-        return "/gallery/pastries.jpg";
-      default:
-        return "/gallery/turkish-breakfast.jpg";
-    }
-  };
+  const categories = CATEGORIES.filter((category) =>
+    menuItems.some((item) => item.category === category.name)
+  );
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(categories[0].name);
+
+  const activeCategory =
+    categories.find((category) => category.name === selectedCategory) ?? categories[0];
 
   return (
     <section id="menu" className="min-h-screen py-20 bg-cream">
@@ -65,27 +89,25 @@ export function Menu() {
           viewport={{ once: true }}
           className="relative w-full max-w-4xl mx-auto h-64 mb-12 overflow-hidden rounded-2xl shadow-card"
         >
-          <img 
-            src={getCategoryImage(selectedCategory)} 
-            alt={selectedCategory}
+          <img
+            src={activeCategory.image}
+            alt={activeCategory.name}
             className="w-full h-full object-cover transition-transform duration-700 ease-in-out"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent flex items-end">
             <div className="p-6 text-white w-full">
-              <h3 className="font-display text-3xl mb-2">{selectedCategory}</h3>
-              <p className="text-white/80 text-sm">
-                {selectedCategory === "Breakfast Platters" && "Generous platters perfect for sharing"}
-                {selectedCategory === "Breakfast Specials" && "Chef's special morning delights"}
-                {selectedCategory === "Eggs & Omelettes" && "Farm-fresh eggs prepared to perfection"}
-                {selectedCategory === "Sandwiches" && "Handcrafted with freshly baked bread"}
-                {selectedCategory === "Crepes" && "Sweet treats to brighten your morning"}
-              </p>
+              <h3 className="font-display text-3xl mb-2">{activeCategory.name}</h3>
+              <p className="text-white/80 text-sm">{activeCategory.tagline}</p>
             </div>
           </div>
         </motion.div>
         
         {/* Legend */}
-        <div className="flex justify-center gap-6 mb-8">
+        <div className="flex justify-center flex-wrap gap-x-6 gap-y-2 mb-8">
+          <div className="flex items-center gap-2">
+            <Star size={18} className="text-primary fill-current" />
+            <span className="text-sm text-charcoal-light">Turkish Classic</span>
+          </div>
           <div className="flex items-center gap-2">
             <Leaf size={18} className="text-secondary" />
             <span className="text-sm text-charcoal-light">Vegan</span>
@@ -98,22 +120,26 @@ export function Menu() {
             <ChefHat size={18} className="text-primary" />
             <span className="text-sm text-charcoal-light">Chef's Pick</span>
           </div>
+          <div className="flex items-center gap-2">
+            <Clock size={18} className="text-accent-dark" />
+            <span className="text-sm text-charcoal-light">Lunch Only</span>
+          </div>
         </div>
 
         {/* Menu Categories */}
         <div className="flex justify-center flex-wrap gap-3 mb-10">
           {categories.map((category) => (
             <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
+              key={category.name}
+              onClick={() => setSelectedCategory(category.name)}
               className={`
                 px-5 py-2.5 rounded-full text-base font-medium transition-all duration-300
-                ${selectedCategory === category
+                ${selectedCategory === category.name
                   ? "bg-primary text-white shadow-warm"
                   : "bg-white text-charcoal hover:bg-cream-dark border border-charcoal/10"}
               `}
             >
-              {category}
+              {category.name}
             </button>
           ))}
         </div>
@@ -137,6 +163,15 @@ export function Menu() {
                 ))}
             </AnimatePresence>
           </div>
+
+          {/* Sides, printed at the foot of the Sandwiches & Wraps section */}
+          {selectedCategory === "Sandwiches & Wraps" && (
+            <p className="text-center text-charcoal-light mt-8">
+              {menuSides
+                .map((side) => `${side.name} $${side.price}`)
+                .join("  ·  ")}
+            </p>
+          )}
         </div>
 
         {/* CTA Section */}

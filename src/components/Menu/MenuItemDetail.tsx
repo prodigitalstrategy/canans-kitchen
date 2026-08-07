@@ -37,7 +37,7 @@ export function MenuItemDetail() {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  if (!menuItem || !details) {
+  if (!menuItem) {
     return (
       <div className="container mx-auto px-4 py-12 mt-4 text-center">
         <h1 className="text-2xl font-medium text-gray-800 mb-4">Menu item not found</h1>
@@ -96,12 +96,21 @@ export function MenuItemDetail() {
           {/* Left Column - Image */}
           <motion.div variants={itemVariants} className="relative">
             <div className="bg-white p-4 rounded-xl shadow-md">
-              {details.images && details.images.length > 0 && (
+              {details?.images && details.images.length > 0 ? (
                 <img
                   src={details.images[0]}
                   alt={menuItem.name}
                   className="w-full h-auto object-cover rounded-lg"
                 />
+              ) : (
+                <div className="w-full aspect-[4/3] bg-cream rounded-lg flex items-center justify-center">
+                  <img
+                    src="/logo.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-24 w-auto opacity-20"
+                  />
+                </div>
               )}
               
               {/* Action buttons */}
@@ -156,19 +165,29 @@ export function MenuItemDetail() {
                     <Wheat size={12} className="mr-1" /> Vegetarian
                   </span>
                 )}
-                {details.difficulty === "Easy" && (
+                {details?.difficulty === "Easy" && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     <CircleDot size={12} className="mr-1" /> Easy
                   </span>
                 )}
-                {details.difficulty === "Medium" && (
+                {details?.difficulty === "Medium" && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
                     <CircleDot size={12} className="mr-1" /> Medium
                   </span>
                 )}
-                {details.difficulty === "Complex" && (
+                {details?.difficulty === "Complex" && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                     <CircleDot size={12} className="mr-1" /> Complex
+                  </span>
+                )}
+                {menuItem.isTurkishClassic && (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    <Star size={12} className="mr-1 fill-current" /> Turkish Classic
+                  </span>
+                )}
+                {menuItem.lunchOnly && (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                    <Clock size={12} className="mr-1" /> Lunch Only
                   </span>
                 )}
                 {menuItem.hasAllergens && (
@@ -202,19 +221,19 @@ export function MenuItemDetail() {
             </p>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
-              {details.preparationTime && (
+              {details?.preparationTime && (
                 <div className="flex items-center">
                   <Clock size={18} className="text-primary mr-2" />
                   <span className="text-sm text-gray-600">{details.preparationTime}</span>
                 </div>
               )}
-              {details.servingSize && (
+              {details?.servingSize && (
                 <div className="flex items-center">
                   <UtensilsCrossed size={18} className="text-primary mr-2" />
                   <span className="text-sm text-gray-600">{details.servingSize}</span>
                 </div>
               )}
-              {details.difficulty && (
+              {details?.difficulty && (
                 <div className="flex items-center">
                   <ChefHat size={18} className="text-primary mr-2" />
                   <span className="text-sm text-gray-600">{details.difficulty}</span>
@@ -288,7 +307,7 @@ export function MenuItemDetail() {
               >
                 Overview
               </button>
-              {details.recipe && (
+              {details?.recipe && (
                 <button
                   onClick={() => setActiveTab("recipe")}
                   className={`py-4 px-1 border-b-2 font-medium text-sm ${
@@ -300,7 +319,7 @@ export function MenuItemDetail() {
                   Recipe
                 </button>
               )}
-              {details.nutrition && (
+              {details?.nutrition && (
                 <button
                   onClick={() => setActiveTab("nutrition")}
                   className={`py-4 px-1 border-b-2 font-medium text-sm ${
@@ -326,6 +345,7 @@ export function MenuItemDetail() {
         >
           {activeTab === "overview" && (
             <div className="grid md:grid-cols-2 gap-8">
+              {details?.ingredients && details.ingredients.length > 0 && (
               <div>
                 <h2 className="font-display text-2xl text-primary mb-4">Ingredients</h2>
                 <ul className="space-y-2">
@@ -337,7 +357,9 @@ export function MenuItemDetail() {
                   ))}
                 </ul>
               </div>
-              
+              )}
+
+              {details?.funFacts && details.funFacts.length > 0 && (
               <div>
                 <h2 className="font-display text-2xl text-primary mb-4">Fun Facts</h2>
                 <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
@@ -352,10 +374,11 @@ export function MenuItemDetail() {
                   ))}
                 </div>
               </div>
+              )}
             </div>
           )}
-          
-          {activeTab === "recipe" && details.recipe && (
+
+          {activeTab === "recipe" && details?.recipe && (
             <div className="prose max-w-none prose-primary">
               <h2 className="font-display text-2xl text-primary mb-4">Recipe</h2>
               <div className="bg-white rounded-lg shadow-sm p-6">
@@ -366,7 +389,7 @@ export function MenuItemDetail() {
             </div>
           )}
           
-          {activeTab === "nutrition" && details.nutrition && (
+          {activeTab === "nutrition" && details?.nutrition && (
             <div>
               <h2 className="font-display text-2xl text-primary mb-4">Nutrition Information</h2>
               <div className="bg-white rounded-lg shadow-sm p-6">

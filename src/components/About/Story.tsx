@@ -3,7 +3,7 @@ import { Phone } from "lucide-react";
 
 export function Story() {
   return (
-    <section id="story" className="py-20 bg-cream">
+    <section id="story" className="py-20 bg-cream overflow-x-clip">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
