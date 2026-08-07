@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Clock } from "lucide-react";
 import { getOperatingStatus, OperatingStatus } from "../../utils/operatingStatus";
 import { motion } from "framer-motion";
 

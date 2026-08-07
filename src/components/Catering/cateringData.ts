@@ -45,7 +45,7 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 4.50,
-    allergens: ['wheat'],
+    allergens: ['wheat', 'dairy'],
     preparationTime: '2-3 hours',
     servingSize: '2-3 pieces per person'
   },
@@ -70,7 +70,7 @@ export const cateringItems: CateringItem[] = [
     imageUrl: '/images/catering/meat-borek.jpg',
     minOrder: 10,
     pricePerPerson: 5.00,
-    allergens: ['wheat'],
+    allergens: ['wheat', 'dairy'],
     popular: true,
     preparationTime: '2-3 hours',
     servingSize: '2-3 pieces per person'
@@ -150,7 +150,7 @@ export const cateringItems: CateringItem[] = [
     isVegetarian: true,
     minOrder: 10,
     pricePerPerson: 5.00,
-    allergens: ['wheat', 'nuts'],
+    allergens: ['wheat', 'nuts', 'dairy'],
     popular: true,
     preparationTime: '2-3 hours',
     servingSize: '2-3 pieces per person'

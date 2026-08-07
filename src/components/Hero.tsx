@@ -55,16 +55,18 @@ export function Hero() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-normal text-white text-shadow-lg tracking-wide leading-tight"
           >
             Canan's Kitchen
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-1 sm:mt-2 font-display italic text-cream/90"
+            >
+              & Bakery
+            </motion.span>
+            <span className="sr-only">
+              — Authentic Turkish Breakfast in Fountain Valley, California
+            </span>
           </motion.h1>
-          
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-1 sm:mt-2 font-display italic text-cream/90"
-          >
-            & Bakery
-          </motion.span>
 
           {/* Tagline - Mobile optimized */}
           <motion.p

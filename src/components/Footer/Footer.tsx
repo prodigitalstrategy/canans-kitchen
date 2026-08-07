@@ -144,14 +144,6 @@ export function Footer() {
             <Link to="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <span aria-hidden="true">·</span>
-            <a href="#" className="hover:text-white transition-colors">
-              Terms of Service
-            </a>
-            <span aria-hidden="true">·</span>
-            <a href="#" className="hover:text-white transition-colors">
-              Accessibility
-            </a>
           </div>
         </div>
       </div>

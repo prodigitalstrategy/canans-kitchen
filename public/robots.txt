@@ -5,6 +5,4 @@ Allow: /
 
 # Sitemaps
 Sitemap: https://cananskitchen.com/sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 10 
+ 

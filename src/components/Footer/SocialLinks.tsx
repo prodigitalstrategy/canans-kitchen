@@ -1,5 +1,4 @@
-import React from "react";
-import { Facebook, Instagram, Mail, Phone, MapPin, ExternalLink } from "lucide-react";
+import { Instagram, Mail, Phone, MapPin, ExternalLink } from "lucide-react";
 
 export function SocialLinks() {
   return (

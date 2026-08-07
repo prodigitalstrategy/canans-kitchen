@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { MotionConfig } from "framer-motion";
 import { Header } from "./components/Header/Header";
 import { Hero } from "./components/Hero";
 import { Features } from "./components/Features";
@@ -18,10 +19,15 @@ import { Privacy } from "./pages/Privacy";
 import { CateringPage } from "./pages/CateringPage";
 import { PageLayout } from "./components/Layout/PageLayout";
 import { FloatingCTA } from "./components/CTA/FloatingCTA";
+import { ScrollManager } from "./components/ScrollManager";
+import { MenuStructuredData } from "./components/MenuStructuredData";
+import { useSEO } from "./utils/seo";
 
 function HomePage() {
+  useSEO(); // homepage defaults
   return (
     <main id="main-content">
+      <MenuStructuredData />
       <Hero />
       <Features />
       <Story />
@@ -50,7 +56,9 @@ function SkipLink() {
 export default function App() {
   return (
     <Router>
+      <MotionConfig reducedMotion="user">
       <div className="min-h-screen bg-cream">
+        <ScrollManager />
         <SkipLink />
         <Header />
         <Routes>
@@ -67,6 +75,7 @@ export default function App() {
         <Footer />
         <FloatingCTA />
       </div>
+      </MotionConfig>
     </Router>
   );
 }

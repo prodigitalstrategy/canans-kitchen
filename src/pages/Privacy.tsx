@@ -1,8 +1,9 @@
-import React from "react";
 import { ArrowLeft } from "lucide-react";
+import { useSEO } from "../utils/seo";
 import { Link } from "react-router-dom";
 
 export function Privacy() {
+  useSEO({ title: "Privacy Policy", path: "/privacy" });
   return (
     <div className="py-20">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -21,7 +22,7 @@ export function Privacy() {
 
         <div className="prose prose-lg max-w-none">
           <p className="text-gray-600 mb-6">
-            Last updated: {new Date().toLocaleDateString()}
+            Last updated: August 6, 2026
           </p>
 
           <section className="mb-8">

@@ -153,6 +153,7 @@ export const menuItems: MenuItem[] = [
     description:
       "Grilled ciabatta bread with soujuk, mozzarella, and pepper paste. Served with mixed greens and fries.",
     category: "Toasts & Panini",
+    isChefPick: true,
   },
   {
     name: "Avocado Toast",

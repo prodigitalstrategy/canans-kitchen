@@ -1,4 +1,3 @@
-import React from "react";
 import { CateringMenuNew } from "./CateringMenuNew";
 
 export function Catering() {

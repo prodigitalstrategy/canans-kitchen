@@ -77,7 +77,7 @@ export function MenuItem({
         {/* Allergen warning if applicable */}
         {hasAllergens && (
           <p className="text-amber-600 text-xs mb-3 flex items-center gap-1">
-            <span>⚠️</span> Contains allergens
+            <span>⚠️</span> Contains nuts
           </p>
         )}
         

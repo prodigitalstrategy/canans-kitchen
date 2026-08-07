@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
-  Clock, ChefHat, ArrowLeft, Heart, Share2, Users
+  Clock, ChefHat, ArrowLeft, Share2, Users, Copy, Check
 } from "lucide-react";
 import { cateringItems } from "./cateringData";
+import { useSEO } from "../../utils/seo";
 
 export function CateringItemDetail() {
   const { id } = useParams<{ id: string }>();
-  const [liked, setLiked] = useState(false);
-  const [activeTab, setActiveTab] = useState<"overview" | "nutrition" | "ordering">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "ordering">("overview");
   const [showShareOptions, setShowShareOptions] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [quantity, setQuantity] = useState(10);
 
   // Find the catering item by ID
@@ -36,10 +37,13 @@ export function CateringItemDetail() {
     }
   };
 
+  useSEO({
+    title: cateringItem ? `${cateringItem.name} — Catering` : "Catering",
+    description: cateringItem?.description,
+    path: id ? `/catering/${id}` : "/catering",
+  });
+
   useEffect(() => {
-    // Scroll to top when component mounts
-    window.scrollTo(0, 0);
-    
     // Reset quantity to minimum order when item changes
     if (cateringItem) {
       setQuantity(cateringItem.minOrder);
@@ -98,33 +102,49 @@ export function CateringItemDetail() {
               )}
             </h1>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setLiked(!liked)}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-              >
-                <Heart
-                  size={24}
-                  className={liked ? "fill-red-500 text-red-500" : "text-gray-400"}
-                />
-              </button>
               <div className="relative">
                 <button
                   onClick={() => setShowShareOptions(!showShareOptions)}
+                  aria-label="Share this item"
+                  aria-expanded={showShareOptions}
                   className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                 >
                   <Share2 size={24} className="text-gray-400" />
                 </button>
                 {showShareOptions && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg p-2 z-10">
-                    <button className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md">
-                      Copy Link
+                    <button
+                      onClick={() => {
+                        navigator.clipboard?.writeText(window.location.href);
+                        setCopied(true);
+                        setTimeout(() => {
+                          setCopied(false);
+                          setShowShareOptions(false);
+                        }, 1200);
+                      }}
+                      className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md"
+                    >
+                      {copied ? <Check size={14} className="text-secondary" /> : <Copy size={14} />}
+                      {copied ? "Copied!" : "Copy Link"}
                     </button>
-                    <button className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md">
+                    <a
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setShowShareOptions(false)}
+                      className="block px-4 py-2 hover:bg-gray-100 rounded-md"
+                    >
                       Share on Facebook
-                    </button>
-                    <button className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md">
-                      Share on Twitter
-                    </button>
+                    </a>
+                    <a
+                      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setShowShareOptions(false)}
+                      className="block px-4 py-2 hover:bg-gray-100 rounded-md"
+                    >
+                      Share on X
+                    </a>
                   </div>
                 )}
               </div>
@@ -174,7 +194,7 @@ export function CateringItemDetail() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 mb-2">Quantity (people)</label>
+            <label htmlFor="catering-quantity" className="block text-gray-700 mb-2">Quantity (people)</label>
             <div className="flex items-center">
               <button
                 onClick={() => setQuantity(Math.max(cateringItem.minOrder, quantity - 1))}
@@ -183,6 +203,7 @@ export function CateringItemDetail() {
                 -
               </button>
               <input
+                id="catering-quantity"
                 type="number"
                 min={cateringItem.minOrder}
                 value={quantity}
@@ -208,12 +229,12 @@ export function CateringItemDetail() {
             >
               Call to Order
             </a>
-            <a
-              href="#contact"
+            <Link
+              to="/#contact"
               className="flex-1 inline-flex justify-center items-center gap-2 px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary-light/10 transition-colors"
             >
               Request Quote
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -230,16 +251,6 @@ export function CateringItemDetail() {
             }`}
           >
             Overview
-          </button>
-          <button
-            onClick={() => setActiveTab("nutrition")}
-            className={`pb-4 font-medium transition-colors ${
-              activeTab === "nutrition"
-                ? "text-primary border-b-2 border-primary"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            Nutrition
           </button>
           <button
             onClick={() => setActiveTab("ordering")}
@@ -262,7 +273,7 @@ export function CateringItemDetail() {
             <p className="text-gray-600 mb-6">
               {cateringItem.description}
             </p>
-            <div className="bg-warm-50 rounded-lg p-6 mb-6">
+            <div className="bg-cream rounded-lg p-6 mb-6">
               <h3 className="font-medium text-gray-800 mb-2">Perfect for:</h3>
               <ul className="list-disc list-inside text-gray-600 space-y-1">
                 <li>Corporate events and meetings</li>
@@ -271,7 +282,7 @@ export function CateringItemDetail() {
                 <li>Holiday parties</li>
               </ul>
             </div>
-            <div className="bg-warm-50 rounded-lg p-6">
+            <div className="bg-cream rounded-lg p-6">
               <h3 className="font-medium text-gray-800 mb-2">Why our customers love it:</h3>
               <ul className="list-disc list-inside text-gray-600 space-y-1">
                 <li>Made with authentic Turkish recipes</li>
@@ -283,47 +294,6 @@ export function CateringItemDetail() {
           </div>
         )}
 
-        {activeTab === "nutrition" && (
-          <div>
-            <h2 className="font-display text-2xl text-primary mb-4">Nutrition Information</h2>
-            <p className="text-gray-600 mb-6">
-              Approximate nutritional values per serving:
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-warm-50 rounded-lg p-4 text-center">
-                <div className="text-2xl font-medium text-primary mb-1">
-                  {cateringItem.category === "desserts" ? "350-450" : 
-                   cateringItem.category === "mains" ? "250-350" : "200-300"}
-                </div>
-                <div className="text-gray-500 text-sm">Calories</div>
-              </div>
-              <div className="bg-warm-50 rounded-lg p-4 text-center">
-                <div className="text-2xl font-medium text-primary mb-1">
-                  {cateringItem.category === "desserts" ? "15-25g" : 
-                   cateringItem.category === "mains" ? "12-18g" : "8-15g"}
-                </div>
-                <div className="text-gray-500 text-sm">Protein</div>
-              </div>
-              <div className="bg-warm-50 rounded-lg p-4 text-center">
-                <div className="text-2xl font-medium text-primary mb-1">
-                  {cateringItem.category === "desserts" ? "30-45g" : 
-                   cateringItem.category === "mains" ? "20-30g" : "25-35g"}
-                </div>
-                <div className="text-gray-500 text-sm">Carbs</div>
-              </div>
-              <div className="bg-warm-50 rounded-lg p-4 text-center">
-                <div className="text-2xl font-medium text-primary mb-1">
-                  {cateringItem.category === "desserts" ? "18-25g" : 
-                   cateringItem.category === "mains" ? "10-18g" : "8-15g"}
-                </div>
-                <div className="text-gray-500 text-sm">Fat</div>
-              </div>
-            </div>
-            <div className="mt-6 text-sm text-gray-500">
-              * Nutritional information is approximate and may vary based on exact ingredients and preparation methods.
-            </div>
-          </div>
-        )}
 
         {activeTab === "ordering" && (
           <div>
@@ -338,29 +308,14 @@ export function CateringItemDetail() {
               <div>
                 <h3 className="font-medium text-gray-800 mb-2">Advance Notice</h3>
                 <p className="text-gray-600">
-                  Please place your order at least 48 hours in advance. For large events (50+ people), 
-                  we recommend placing your order 5-7 days in advance.
+                  Catering orders are prepared fresh for your event — please call ahead so we can plan for your date.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium text-gray-800 mb-2">Delivery</h3>
+                <h3 className="font-medium text-gray-800 mb-2">Questions?</h3>
                 <p className="text-gray-600">
-                  We offer delivery within a 15-mile radius of our location. Delivery fees apply based on distance.
-                  Free delivery for orders over $300 within 5 miles.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-800 mb-2">Payment</h3>
-                <p className="text-gray-600">
-                  We require a 50% deposit to secure your order, with the remaining balance due on delivery or pickup.
-                  We accept all major credit cards, cash, and business checks.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-800 mb-2">Cancellation Policy</h3>
-                <p className="text-gray-600">
-                  Cancellations made 48+ hours before your event receive a full refund of the deposit.
-                  Cancellations within 48 hours of the event will result in a 50% charge of the total order.
+                  Call us at (949) 394-6318 for delivery options, payment, and anything else — we're happy to help
+                  plan your event.
                 </p>
               </div>
             </div>

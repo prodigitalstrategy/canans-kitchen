@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Calendar, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { cateringItems } from './cateringData';
 import { CateringItem } from './CateringItem';
 
@@ -23,9 +24,9 @@ export function CateringMenuNew() {
             <Calendar size={14} />
             Catering Services
           </span>
-          <h2 className="font-display text-4xl md:text-5xl text-charcoal mb-4">
+          <h1 className="font-display text-4xl md:text-5xl text-charcoal mb-4">
             Bring Turkish Breakfast to Your Event
-          </h2>
+          </h1>
           <p className="text-charcoal-light text-lg max-w-2xl mx-auto">
             From intimate gatherings to large celebrations, we bring the authentic taste of Türkiye to you
           </p>
@@ -96,13 +97,13 @@ export function CateringMenuNew() {
                   <Phone size={20} />
                   Call (949) 394-6318
                 </a>
-                <a
-                  href="#contact"
+                <Link
+                  to="/#contact"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-white text-charcoal font-medium rounded-full hover:bg-cream-dark transition-colors border border-charcoal/10"
                 >
                   Learn More
                   <ArrowRight size={18} />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

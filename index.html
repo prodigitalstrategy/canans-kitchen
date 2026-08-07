@@ -2,9 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/favicon/favicon.jpg" />
-    <link rel="apple-touch-icon" href="/favicon/favicon.jpg" />
-    <link rel="shortcut icon" type="image/jpeg" href="/favicon/favicon.jpg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon/favicon-180.png" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta name="theme-color" content="#C4562A" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -17,11 +18,11 @@
     <meta name="keywords" content="Turkish breakfast, Turkish restaurant Fountain Valley, simit, menemen, Turkish coffee, Turkish tea, Turkish pastries, authentic Turkish food, breakfast restaurant Orange County, Turkish catering, Canan's Kitchen, Türkiye breakfast" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="restaurant" />
+    <meta property="og:type" content="restaurant.restaurant" />
     <meta property="og:url" content="https://cananskitchen.com/" />
     <meta property="og:title" content="Canan's Kitchen & Bakery | Authentic Turkish Breakfast" />
     <meta property="og:description" content="A Taste of Türkiye in California — Experience authentic Turkish breakfast and homemade pastries in Fountain Valley. Fresh simit, menemen, Turkish tea & coffee. Call (949) 394-6318." />
-    <meta property="og:image" content="https://cananskitchen.com/hero-image.jpg" />
+    <meta property="og:image" content="https://cananskitchen.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
@@ -32,7 +33,7 @@
     <meta name="twitter:url" content="https://cananskitchen.com/" />
     <meta name="twitter:title" content="Canan's Kitchen & Bakery | Turkish Breakfast in OC" />
     <meta name="twitter:description" content="A Taste of Türkiye in California — Experience authentic Turkish breakfast and homemade pastries in Fountain Valley. Call (949) 394-6318." />
-    <meta name="twitter:image" content="https://cananskitchen.com/hero-image.jpg" />
+    <meta name="twitter:image" content="https://cananskitchen.com/og-image.jpg" />
 
     <!-- Additional Meta Tags -->
     <meta name="author" content="Canan's Kitchen & Bakery" />
@@ -40,9 +41,10 @@
     <meta name="language" content="English" />
     <meta name="geo.region" content="US-CA" />
     <meta name="geo.placename" content="Fountain Valley" />
-    <meta name="geo.position" content="33.7213;-117.9564" />
-    <meta name="ICBM" content="33.7213, -117.9564" />
     <link rel="canonical" href="https://cananskitchen.com/" />
+
+    <!-- Preload LCP hero image -->
+    <link rel="preload" as="image" href="/hero-image.jpg" />
 
     <!-- Preconnect to improve font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -74,11 +76,7 @@
           "postalCode": "92708",
           "addressCountry": "US"
         },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 33.7213,
-          "longitude": -117.9564
-        },
+        "hasMap": "https://www.google.com/maps/search/?api=1&query=16937+Bushard+St%2C+Fountain+Valley%2C+CA+92708",
         "url": "https://cananskitchen.com",
         "telephone": "+1-949-394-6318",
         "email": "info@cananskitchen.com",
@@ -119,13 +117,6 @@
           "url": "https://cananskitchen.com/#menu"
         },
         "acceptsReservations": true,
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "5",
-          "reviewCount": "150",
-          "bestRating": "5",
-          "worstRating": "1"
-        },
         "sameAs": [
           "https://www.instagram.com/canansktchen/",
           "https://www.yelp.com/biz/canans-kitchen-and-bakery-fountain-valley"
@@ -133,33 +124,6 @@
       }
     </script>
 
-    <!-- BreadcrumbList Schema -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://cananskitchen.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Menu",
-            "item": "https://cananskitchen.com/#menu"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Catering",
-            "item": "https://cananskitchen.com/catering"
-          }
-        ]
-      }
-    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,6 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Phone, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const GOOGLE_MAPS_URL = "https://www.google.com/maps/dir/?api=1&destination=Canan's+Kitchen+%26+Bakery,+16937+Bushard+St,+Fountain+Valley,+CA+92708";
@@ -8,7 +7,6 @@ const GOOGLE_MAPS_URL = "https://www.google.com/maps/dir/?api=1&destination=Cana
 interface ImageModalProps {
   src: string;
   alt: string;
-  link: string;
   onClose: () => void;
   onNext: () => void;
   onPrevious: () => void;
@@ -16,7 +14,7 @@ interface ImageModalProps {
   hasPrevious: boolean;
 }
 
-function ImageModal({ src, alt, link, onClose, onNext, onPrevious, hasNext, hasPrevious }: ImageModalProps) {
+function ImageModal({ src, alt, onClose, onNext, onPrevious, hasNext, hasPrevious }: ImageModalProps) {
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     switch (e.key) {
       case "ArrowLeft":
@@ -31,11 +29,24 @@ function ImageModal({ src, alt, link, onClose, onNext, onPrevious, hasNext, hasP
     }
   }, [onNext, onPrevious, onClose, hasNext, hasPrevious]);
 
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/95 backdrop-blur-sm" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/95 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={alt}
+    >
       <div className="relative max-w-[90vw] max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden">
         <button
           onClick={onClose}
+          autoFocus
+          aria-label="Close image viewer"
           className="absolute top-4 right-4 text-white hover:text-cream focus:outline-none z-10 bg-charcoal/50 hover:bg-charcoal/70 p-2 rounded-full backdrop-blur-sm transition-colors"
         >
           <X size={24} />
@@ -165,22 +176,25 @@ export function Gallery() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {images.map((image, index) => (
-            <motion.div
+            <motion.button
               key={index}
+              type="button"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
               className={`
                 ${index === 0 || index === 3 ? 'md:row-span-2' : ''}
-                rounded-2xl overflow-hidden cursor-pointer group relative bg-cream shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1
+                block w-full text-left rounded-2xl overflow-hidden cursor-pointer group relative bg-cream shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
               `}
               onClick={() => setSelectedImageIndex(index)}
+              aria-label={`View larger: ${image.alt}`}
             >
               <div className={`relative overflow-hidden ${index === 0 || index === 3 ? 'h-64 md:h-full' : 'h-48 md:h-56'}`}>
                 <img
                   src={image.src}
                   alt={image.alt}
+                  loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -192,7 +206,7 @@ export function Gallery() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
 
@@ -236,7 +250,6 @@ export function Gallery() {
         <ImageModal
           src={images[selectedImageIndex].src}
           alt={images[selectedImageIndex].alt}
-          link={images[selectedImageIndex].link}
           onClose={() => setSelectedImageIndex(null)}
           onNext={handleNext}
           onPrevious={handlePrevious}

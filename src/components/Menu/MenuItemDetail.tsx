@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { 
-  Clock, UtensilsCrossed, ChefHat, Wheat, Leaf, 
-  ArrowLeft, Heart, Share2, Info, Star, AlertTriangle,
-  CircleDot, ChevronRight
+import {
+  Clock, UtensilsCrossed, ChefHat, Wheat, Leaf,
+  ArrowLeft, Share2, Info, Star, AlertTriangle,
+  CircleDot, ChevronRight, Phone, Copy, Check
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { menuItems, menuItemDetails } from "./menuData";
+import { useSEO } from "../../utils/seo";
 import { MenuItem } from "./MenuItem";
 
 export function MenuItemDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const [liked, setLiked] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "recipe" | "nutrition">("overview");
   const [showShareOptions, setShowShareOptions] = useState(false);
-  const [quantity, setQuantity] = useState(1);
+  const [copied, setCopied] = useState(false);
 
   // Directly access the details using the slug parameter
   const details = slug ? menuItemDetails[slug] : undefined;
@@ -32,10 +32,11 @@ export function MenuItemDetail() {
       })
     : [];
 
-  useEffect(() => {
-    // Scroll to top when component mounts
-    window.scrollTo(0, 0);
-  }, [slug]);
+  useSEO({
+    title: menuItem ? `${menuItem.name} — $${menuItem.price.toFixed(2)}` : "Menu",
+    description: menuItem?.description,
+    path: slug ? `/menu/${slug}` : undefined,
+  });
 
   if (!menuItem) {
     return (
@@ -74,7 +75,7 @@ export function MenuItemDetail() {
   };
 
   return (
-    <div className="bg-warm-50 py-16 mt-8">
+    <div className="bg-cream py-16 mt-8">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
         <div className="mb-8 pt-4">
@@ -115,38 +116,51 @@ export function MenuItemDetail() {
               
               {/* Action buttons */}
               <div className="absolute top-8 right-8 flex space-x-2">
-                <button
-                  onClick={() => setLiked(!liked)}
-                  className={`p-2 rounded-full ${
-                    liked ? "bg-red-100 text-red-500" : "bg-white/90 text-gray-600"
-                  } shadow-md transition-colors duration-300`}
-                >
-                  <Heart
-                    size={20}
-                    className={liked ? "fill-current" : ""}
-                  />
-                </button>
-                
                 <div className="relative">
                   <button
                     onClick={() => setShowShareOptions(!showShareOptions)}
+                    aria-label="Share this dish"
+                    aria-expanded={showShareOptions}
                     className="p-2 rounded-full bg-white/90 text-gray-600 shadow-md hover:bg-gray-100 transition-colors duration-300"
                   >
                     <Share2 size={20} />
                   </button>
-                  
+
                   {showShareOptions && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
+                    <div className="absolute right-0 mt-2 w-44 bg-white rounded-md shadow-lg z-10">
                       <div className="py-1">
-                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          Copy Link
+                        <button
+                          onClick={() => {
+                            navigator.clipboard?.writeText(window.location.href);
+                            setCopied(true);
+                            setTimeout(() => {
+                              setCopied(false);
+                              setShowShareOptions(false);
+                            }, 1200);
+                          }}
+                          className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          {copied ? <Check size={14} className="text-secondary" /> : <Copy size={14} />}
+                          {copied ? "Copied!" : "Copy Link"}
                         </button>
-                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://cananskitchen.com/menu/${slug}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setShowShareOptions(false)}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
                           Share on Facebook
-                        </button>
-                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          Share on Twitter
-                        </button>
+                        </a>
+                        <a
+                          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://cananskitchen.com/menu/${slug}`)}&text=${encodeURIComponent(`${menuItem.name} at Canan's Kitchen`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setShowShareOptions(false)}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Share on X
+                        </a>
                       </div>
                     </div>
                   )}
@@ -192,7 +206,7 @@ export function MenuItemDetail() {
                 )}
                 {menuItem.hasAllergens && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                    <AlertTriangle size={12} className="mr-1" /> Contains Allergens
+                    <AlertTriangle size={12} className="mr-1" /> Contains Nuts
                   </span>
                 )}
               </div>
@@ -204,17 +218,6 @@ export function MenuItemDetail() {
             <h1 className="font-display text-3xl lg:text-4xl text-primary mb-3">
               {menuItem.name}
             </h1>
-            
-            <div className="flex items-center mb-4">
-              <div className="flex text-amber-400">
-                <Star className="fill-current" size={18} />
-                <Star className="fill-current" size={18} />
-                <Star className="fill-current" size={18} />
-                <Star className="fill-current" size={18} />
-                <Star className="fill-current stroke-amber-400 fill-amber-100" size={18} />
-              </div>
-              <span className="ml-2 text-sm text-gray-600">4.8 (24 reviews)</span>
-            </div>
             
             <p className="text-gray-700 mb-6">
               {menuItem.description}
@@ -242,28 +245,8 @@ export function MenuItemDetail() {
             </div>
             
             <div className="mb-6">
-              <div className="text-xl font-medium text-primary-dark mb-2">
-                ${(menuItem.price * quantity).toFixed(2)}
-              </div>
-              
-              {/* Quantity selector */}
-              <div className="flex items-center space-x-4 mb-4">
-                <span className="text-gray-700">Quantity:</span>
-                <div className="flex items-center">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100"
-                  >
-                    -
-                  </button>
-                  <span className="w-10 text-center">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100"
-                  >
-                    +
-                  </button>
-                </div>
+              <div className="text-xl font-medium text-primary-dark mb-4">
+                ${menuItem.price.toFixed(2)}
               </div>
               
               {/* Adjustments */}
@@ -282,12 +265,13 @@ export function MenuItemDetail() {
               
               {/* Action buttons */}
               <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                <button className="py-3 px-6 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors duration-300 flex-1">
-                  Order Now
-                </button>
-                <button className="py-3 px-6 bg-white border border-primary text-primary font-medium rounded-lg hover:bg-primary-50 transition-colors duration-300 flex-1">
-                  Add to Cart
-                </button>
+                <a
+                  href="tel:9493946318"
+                  className="inline-flex items-center justify-center gap-2 py-3 px-6 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors duration-300 flex-1"
+                >
+                  <Phone size={18} />
+                  Call to Order — (949) 394-6318
+                </a>
               </div>
             </div>
           </motion.div>

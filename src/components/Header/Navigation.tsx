@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ChevronRight, X, Phone, MapPin, Clock } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,6 +30,16 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  // Close the drawer on Escape while it is open
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, setIsOpen]);
 
   const handleSectionClick = (e: React.MouseEvent, to: string) => {
     handleClose();
@@ -110,6 +121,7 @@ export function Navigation({ isOpen, setIsOpen }: NavigationProps) {
                 <img src="/logo.png" alt="Canan's Kitchen & Bakery" className="h-10 w-auto" />
                 <button
                   onClick={handleClose}
+                  autoFocus
                   className="p-2 rounded-full hover:bg-charcoal/5 transition-colors"
                   aria-label="Close menu"
                 >

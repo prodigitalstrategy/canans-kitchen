@@ -8,6 +8,13 @@ export interface BlogPost {
   content: string;
   image: string;
   category: string;
+  /** Shown in the sidebar only for recipe posts. */
+  quickFacts?: {
+    prepTime: string;
+    cookTime: string;
+    servings: string;
+    difficulty: string;
+  };
 }
 
 export const blogPosts: BlogPost[] = [
@@ -359,6 +366,12 @@ Baklava holds a significant place in Turkish cuisine, and the Turkish version is
     id: "1",
     title: "Perfect Shakshuka Recipe for a Flavorful Breakfast",
     slug: "perfect-shakshuka-recipe",
+    quickFacts: {
+      prepTime: "10 mins",
+      cookTime: "20 mins",
+      servings: "1-2 people",
+      difficulty: "Medium",
+    },
     author: "Canan Penez Sertdere",
     date: "January 2024",
     excerpt:

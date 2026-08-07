@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { blogPosts } from "./blogData";
+import { useSEO } from "../../utils/seo";
 import {
   ArrowLeft,
   Calendar,
@@ -18,9 +18,11 @@ export function BlogPost() {
   const navigate = useNavigate();
   const post = blogPosts.find((p) => p.slug === slug);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useSEO({
+    title: post?.title ?? "Blog",
+    description: post?.excerpt,
+    path: slug ? `/blog/${slug}` : undefined,
+  });
 
   if (!post) {
     return (
@@ -236,7 +238,8 @@ export function BlogPost() {
           {/* Sidebar */}
           <aside className="lg:col-span-1">
             <div className="sticky top-24 space-y-8">
-              {/* Quick Facts Card */}
+              {/* Quick Facts Card - recipe posts only */}
+              {post.quickFacts && (
               <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div className="bg-primary/5 p-6">
                   <h3 className="font-display font-semibold text-xl text-primary mb-4">
@@ -247,33 +250,34 @@ export function BlogPost() {
                       <Clock className="text-primary" size={20} />
                       <div>
                         <p className="text-sm text-gray-600">Prep Time</p>
-                        <p className="font-semibold">15 mins</p>
+                        <p className="font-semibold">{post.quickFacts.prepTime}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="text-primary" size={20} />
                       <div>
                         <p className="text-sm text-gray-600">Cook Time</p>
-                        <p className="font-semibold">30-35 mins</p>
+                        <p className="font-semibold">{post.quickFacts.cookTime}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <Users className="text-primary" size={20} />
                       <div>
                         <p className="text-sm text-gray-600">Servings</p>
-                        <p className="font-semibold">4-6 people</p>
+                        <p className="font-semibold">{post.quickFacts.servings}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <ChefHat className="text-primary" size={20} />
                       <div>
                         <p className="text-sm text-gray-600">Difficulty</p>
-                        <p className="font-semibold">Medium</p>
+                        <p className="font-semibold">{post.quickFacts.difficulty}</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              )}
 
               {/* Share Card */}
               <div className="bg-white rounded-2xl shadow-xl p-6">

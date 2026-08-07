@@ -43,7 +43,6 @@ export function Blog() {
     setStartIndex((prev) => Math.max(prev - postsPerView, 0));
   };
 
-  const visiblePosts = posts.slice(startIndex, startIndex + postsPerView);
   const canShowNext = startIndex + postsPerView < posts.length;
   const canShowPrev = startIndex > 0;
 
@@ -103,7 +102,7 @@ export function Blog() {
                 transform: `translateX(-${startIndex * (100 / postsPerView)}%)`,
               }}
             >
-              {visiblePosts.map((post, index) => (
+              {posts.map((post, index) => (
                 <motion.article
                   key={post.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -122,6 +121,7 @@ export function Blog() {
                       <img
                         src={post.image}
                         alt={post.title}
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

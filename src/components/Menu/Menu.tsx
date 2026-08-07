@@ -91,7 +91,8 @@ export function Menu() {
         >
           <img
             src={activeCategory.image}
-            alt={activeCategory.name}
+            alt={`${activeCategory.name} at Canan's Kitchen, Fountain Valley`}
+            loading="lazy"
             className="w-full h-full object-cover transition-transform duration-700 ease-in-out"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent flex items-end">

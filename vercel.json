@@ -4,5 +4,17 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/menu/soujuk-omelette",
+      "destination": "/menu/soujuk-eggs",
+      "permanent": true
+    },
+    {
+      "source": "/menu/banana-nutella-almond-crepe",
+      "destination": "/menu/nutella-strawberry-banana-crepe",
+      "permanent": true
+    }
   ]
 }
