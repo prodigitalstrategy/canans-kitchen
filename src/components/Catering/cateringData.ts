@@ -38,7 +38,7 @@ export const cateringItems: CateringItem[] = [
   },
   {
     id: 'patatesli-borek',
-    name: 'Patatesli Börek',
+    name: 'Potato Börek',
     description: 'Flaky phyllo pastries filled with seasoned mashed potatoes. Light, savory, and crowd-pleasing.',
     category: 'pastries',
     imageUrl: '/images/catering/potato-borek.jpg',
@@ -51,7 +51,7 @@ export const cateringItems: CateringItem[] = [
   },
   {
     id: 'ispanakli-borek',
-    name: 'Ispanaklı Börek',
+    name: 'Spinach Börek',
     description: 'Classic spinach börek with tender spinach, onions, and herbs wrapped in thin layers of buttery phyllo dough.',
     category: 'pastries',
     imageUrl: '/images/catering/spinach-borek.jpg',
@@ -64,7 +64,7 @@ export const cateringItems: CateringItem[] = [
   },
   {
     id: 'kiymali-borek',
-    name: 'Kıymalı Börek',
+    name: 'Ground Beef Börek',
     description: 'Phyllo pastries generously filled with spiced ground beef, onions, and peppers. A hearty choice for any gathering.',
     category: 'pastries',
     imageUrl: '/images/catering/meat-borek.jpg',
@@ -77,7 +77,7 @@ export const cateringItems: CateringItem[] = [
   },
   {
     id: 'yaprak-sarma',
-    name: 'Yaprak Sarma',
+    name: 'Stuffed Grape Leaves',
     description: 'Grape leaves stuffed with fragrant rice, fresh herbs, and spices. A vegetarian favorite packed with authentic Turkish flavor.',
     category: 'mains',
     imageUrl: '/images/catering/grape-leaves.jpg',
@@ -91,7 +91,7 @@ export const cateringItems: CateringItem[] = [
   },
   {
     id: 'lahana-sarma',
-    name: 'Lahana Sarma',
+    name: 'Cabbage Rolls',
     description: 'Cabbage rolls filled with seasoned ground beef and rice. Slow-cooked in a light tomato sauce for melt-in-your-mouth goodness.',
     category: 'mains',
     imageUrl: '/images/catering/cabbage-rolls.jpg',
