@@ -11,7 +11,7 @@ export function CateringPage() {
   return (
     <div className="min-h-screen bg-cream">
       <main className="pt-4">
-        <CateringMenuNew />
+        <CateringMenuNew standalone />
       </main>
     </div>
   );
