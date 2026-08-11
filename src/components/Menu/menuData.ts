@@ -326,7 +326,7 @@ export const menuItemDetails: Record<string, MenuItemDetailType> = {
   },
 
   "breakfast-favorites": {
-    images: [],
+    images: ["/images/menu/breakfast-favorites.jpg"],
     funFacts: [
       "This is the American-style plate on the menu — a counterpart to the traditional Turkish spread.",
       "All the meat served at Canan's Kitchen is beef; there is no pork on the menu.",
@@ -568,7 +568,7 @@ export const menuItemDetails: Record<string, MenuItemDetailType> = {
   },
 
   "mediterranean-omelet": {
-    images: [],
+    images: ["/images/menu/mediterranean-omelet.jpg"],
     funFacts: [
       "The Mediterranean diet was recognised by UNESCO as an Intangible Cultural Heritage in 2010.",
       "Feta and tomato is one of the oldest flavour pairings in the eastern Mediterranean.",
@@ -643,7 +643,7 @@ export const menuItemDetails: Record<string, MenuItemDetailType> = {
   },
 
   "egg-cheese-soujuk-croissant": {
-    images: [],
+    images: ["/images/menu/egg-cheese-soujuk-croissant.jpg"],
     funFacts: [
       "Soujuk is cured for several weeks before it ever reaches the pan.",
       "The spice blend usually includes cumin, sumac, garlic, and red pepper.",
@@ -663,7 +663,7 @@ export const menuItemDetails: Record<string, MenuItemDetailType> = {
   },
 
   "egg-cheese-bacon-beef-croissant": {
-    images: [],
+    images: ["/images/menu/egg-cheese-bacon-croissant.jpg"],
     funFacts: [
       "All the bacon here is beef — there is no pork anywhere on the menu.",
       "Beef bacon is cut from the belly or navel, the same way pork bacon is.",
@@ -703,7 +703,7 @@ export const menuItemDetails: Record<string, MenuItemDetailType> = {
   },
 
   "smoked-salmon-croissant": {
-    images: [],
+    images: ["/images/menu/smoked-salmon-croissant.jpg"],
     funFacts: [
       "Cold-smoked salmon is cured in salt before it ever meets smoke.",
       "Avocado and salmon is a pairing that only entered brunch menus in the last few decades.",
