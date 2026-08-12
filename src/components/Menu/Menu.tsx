@@ -20,7 +20,7 @@ const PHONE_NUMBER = "9493946318";
 const CATEGORIES = [
   {
     name: "Breakfast Plates",
-    image: "/gallery/turkish-breakfast.jpg",
+    image: "/images/menu/mixed-breakfast.jpg",
     tagline: "Generous platters perfect for sharing",
   },
   {
@@ -30,7 +30,7 @@ const CATEGORIES = [
   },
   {
     name: "Menemen (Shakshuka)",
-    image: "/gallery/menemen.jpg",
+    image: "/images/menu/menemen.jpg",
     tagline: "Our signature pan of eggs, tomatoes, and peppers",
   },
   {
