@@ -2,12 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Google Ads: initialize once; conversions are sent only by directions clicks. -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11272356282"></script>
+    <!-- Google tag: one loader for GA4 (G-8V4PK9SYD4) and Google Ads (AW-11272356282).
+         Ads conversions are sent only by directions clicks (public/directions-tracking.js).
+         GA4 is in the 'ga4' group so its custom events never reach Google Ads. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V4PK9SYD4"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+      gtag('config', 'G-8V4PK9SYD4', { groups: 'ga4' });
       gtag('config', 'AW-11272356282');
     </script>
     <script defer src="/directions-tracking.js"></script>
