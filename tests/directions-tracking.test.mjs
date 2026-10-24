@@ -46,11 +46,14 @@ test('directions and footer address links send exactly one canonical conversion 
   ]) {
     const before = b.calls.length;
     b.click(href);
-    assert.equal(b.calls.length, before + 1);
-    const [command, event, parameters] = b.calls.at(-1);
-    assert.equal(command, 'event');
-    assert.equal(event, 'conversion');
-    assert.equal(parameters.send_to, 'AW-11272356282/UTJ7CM_V9rUZELqDiv8p');
+    const sent = b.calls.slice(before);
+    const conversions = sent.filter(([, event]) => event === 'conversion');
+    assert.equal(conversions.length, 1);
+    assert.equal(conversions[0][2].send_to, 'AW-11272356282/UTJ7CM_V9rUZELqDiv8p');
+    const ga4 = sent.filter(([, event]) => event === 'get_directions');
+    assert.equal(ga4.length, 1);
+    assert.equal(ga4[0][2].send_to, 'ga4');
+    assert.equal(sent.length, 2);
   }
 });
 
@@ -60,7 +63,7 @@ test('reinstalling the script cannot register duplicate listeners', () => {
   b.install();
   b.click('https://www.google.com/maps/dir/?destination=Canan');
   assert.equal(b.listeners.length, 1);
-  assert.equal(b.calls.length, 1);
+  assert.equal(b.calls.filter(([, event]) => event === 'conversion').length, 1);
 });
 
 test('phone, menu, embeds, unrelated hosts, and non-link clicks do not count', () => {
@@ -69,7 +72,8 @@ test('phone, menu, embeds, unrelated hosts, and non-link clicks do not count', (
   for (const href of [null, 'tel:9493946318', '/#menu',
     'https://www.google.com/maps/embed?pb=example',
     'https://www.google.com.evil.example/maps/dir/', 'https://maps.google.com/']) b.click(href);
-  assert.equal(b.calls.length, 0);
+  assert.equal(b.calls.filter(([, event]) => event === 'conversion').length, 0);
+  assert.equal(b.calls.filter(([, event]) => event === 'get_directions').length, 0);
 });
 
 test('missing/blocked Google tag does not break a directions click', () => {
@@ -77,4 +81,26 @@ test('missing/blocked Google tag does not break a directions click', () => {
   b.install();
   delete b.context.window.gtag;
   assert.doesNotThrow(() => b.click('https://www.google.com/maps/dir/?destination=Canan'));
+});
+
+test('phone links send one GA4 click_to_call event and no Ads conversion', () => {
+  const b = browser();
+  b.install();
+  for (const href of ['tel:9493946318', 'tel:+19493946318']) {
+    const before = b.calls.length;
+    b.click(href);
+    const sent = b.calls.slice(before);
+    assert.equal(sent.length, 1);
+    assert.deepEqual([sent[0][0], sent[0][1], sent[0][2].send_to], ['event', 'click_to_call', 'ga4']);
+  }
+});
+
+test('GA4 events never target the Google Ads account', () => {
+  const b = browser();
+  b.install();
+  b.click('tel:9493946318');
+  b.click('https://www.google.com/maps/dir/?api=1&destination=Canan');
+  for (const [, event, parameters] of b.calls) {
+    if (event !== 'conversion') assert.equal(parameters.send_to, 'ga4');
+  }
 });
