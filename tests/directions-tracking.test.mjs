@@ -104,3 +104,27 @@ test('GA4 events never target the Google Ads account', () => {
     if (event !== 'conversion') assert.equal(parameters.send_to, 'ga4');
   }
 });
+
+test('delivery links send one GA4 order_online_click with the platform and no Ads conversion', () => {
+  const b = browser();
+  b.install();
+  for (const [href, platform] of [
+    ['https://order.online/store/canan', 'order'],
+    ['https://www.doordash.com/store/canan', 'doordash'],
+    ['https://www.ubereats.com/store/canans-kitchen', 'ubereats'],
+    ['https://www.grubhub.com/restaurant/canans', 'grubhub'],
+  ]) {
+    const before = b.calls.length;
+    b.click(href);
+    const sent = b.calls.slice(before);
+    assert.equal(sent.length, 1, href);
+    assert.deepEqual([sent[0][1], sent[0][2].send_to, sent[0][2].platform], ['order_online_click', 'ga4', platform]);
+  }
+});
+
+test('lookalike delivery hosts send nothing', () => {
+  const b = browser();
+  b.install();
+  for (const href of ['https://doordash.com.evil.example/store', 'https://notgrubhub.com/x']) b.click(href);
+  assert.equal(b.calls.length, 0);
+});
